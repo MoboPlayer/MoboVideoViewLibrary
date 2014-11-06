@@ -1,0 +1,12 @@
+bin/
+gen/
+*.so
+*~
+*.swp
+.classpath
+.project
+project.properties
+*.db
+.setting/
+.settings/
+rawso

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@android:id/background">
+		<shape>
+			<corners android:radius="7.0dip">
+			</corners>
+			<!-- 
+			<background android:color="@color/seekbar_bg_color">
+			</background> -->
+			
+				<gradient android:startColor="@color/seekbar_bg_color" android:endColor="@color/seekbar_bg_color"
+					android:angle="270.0" android:centerY="0.75" android:centerColor="@color/seekbar_bg_color">
+				</gradient>
+		</shape>
+	</item>
+	<item android:id="@android:id/secondaryProgress">
+		<clip>
+			<shape>
+				<corners android:radius="5.0dip">
+				</corners>
+				<gradient android:startColor="@color/seekbar_progress_bg_color" android:endColor="@color/seekbar_progress_bg_color"
+					android:angle="270.0" android:centerY="0.75" android:centerColor="@color/seekbar_progress_bg_color">
+				</gradient>
+				<stroke android:width="1.0dip" android:color="@color/seekbar_progress_bg_color">
+				</stroke>
+			</shape>
+		</clip>
+	</item>
+	<item android:id="@android:id/progress">
+		<clip>
+			<shape>
+				<corners android:radius="5.0dip">
+				</corners>
+				<gradient android:startColor="@color/seekbar_progress_bg_color" android:endColor="@color/seekbar_progress_bg_color"
+					android:angle="270.0" android:centerY="0.75" android:centerColor="@color/seekbar_progress_bg_color">
+				</gradient>
+			</shape>
+		</clip>
+	</item>
+</layer-list>
