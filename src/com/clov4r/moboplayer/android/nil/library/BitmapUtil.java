@@ -27,9 +27,11 @@ public class BitmapUtil {
 		}
 	}
 
+	private static HashMap<String, Bitmap> scaledMap = new HashMap<String, Bitmap>();
+
 	public static Bitmap getScaledBitmap(String path, Bitmap bm, int viewWidth,
 			int viewHeight) {
-		Bitmap result = existedMap.get(path);
+		Bitmap result = scaledMap.get(path);
 		if (result != null && !result.isRecycled())
 			return result;
 		if (bm != null) {
@@ -39,13 +41,18 @@ public class BitmapUtil {
 			matrix.postScale(sx, sy);
 			result = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
 					bm.getHeight(), matrix, true);
-			existedMap.put(path, result);
+			scaledMap.put(path, result);
 		}
 		return result;
 	}
 
 	public static void releaseAllBitmap() {
 		Iterator<String> iterator = existedMap.keySet().iterator();
+		while (iterator.hasNext()) {
+			String path = iterator.next();
+			releaseBitmap(path);
+		}
+		Iterator<String> iterator_2 = scaledMap.keySet().iterator();
 		while (iterator.hasNext()) {
 			String path = iterator.next();
 			releaseBitmap(path);
@@ -59,6 +66,12 @@ public class BitmapUtil {
 				tmpMap.recycle();
 			}
 			existedMap.remove(path);
+		} else if (scaledMap.containsKey(path)) {
+			Bitmap tmpMap = scaledMap.get(path);
+			if (tmpMap != null && !tmpMap.isRecycled()) {
+				tmpMap.recycle();
+			}
+			scaledMap.remove(path);
 		}
 	}
 
