@@ -24,12 +24,15 @@
  */
 package com.clov4r.moboplayer.android.nil.codec;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public class ScreenShotLibJni extends BaseJNILib {
@@ -42,22 +45,31 @@ public class ScreenShotLibJni extends BaseJNILib {
 		return mScreenShotLib;
 	}
 
-	public native String getThumbnail(String videoName, int position,
-			int width, int height);// ByteBuffer bitmapData,
+	private HashMap<String, String> pathMap = new HashMap<String, String>();
 
-	OnBitmapCreatedListener mOnBitmapCreatedListener=null;
-	public void setOnBitmapCreatedListener(OnBitmapCreatedListener listener){
-		mOnBitmapCreatedListener=listener;
-	}
-	
-	public void getScreenShot(String videoName,
-			int position, int width, int height) {
-		// ByteBuffer bitmapData = null;//ByteBuffer.allocateDirect(3000 *
-		// 1024);
-		String size = getThumbnail(videoName, position, width, height);
+	protected native String getThumbnail(String videoName, int position,
+			int width, int height);
+
+	protected native String getIDRThumbnail(String videoName, int width, int height);
+
+	OnBitmapCreatedListener mOnBitmapCreatedListener = null;
+
+	public void setOnBitmapCreatedListener(OnBitmapCreatedListener listener) {
+		mOnBitmapCreatedListener = listener;
 	}
 
-	public void createBitmap(ByteBuffer bitmapData, String size,String fileName) {
+	public void getIDRFrameThumbnail(String videoPath,
+			String thumbnailSavePath, int width, int height) {
+		pathMap.put(videoPath, thumbnailSavePath);
+		getIDRThumbnail(videoPath, width, height);
+	}
+
+	public void getScreenShot(String videoPath, int position, int width,
+			int height) {
+		getThumbnail(videoPath, position, width, height);
+	}
+
+	public void createBitmap(ByteBuffer bitmapData, String size, String fileName) {
 		IntBuffer intBuffer = bitmapData.asIntBuffer();
 		String[] sizeArray = size.split(",");
 		int[] data = new int[intBuffer.limit()];
@@ -67,15 +79,42 @@ public class ScreenShotLibJni extends BaseJNILib {
 				Config.ARGB_8888);
 		Log.e("ScreenShotLib", "" + size);
 		// return bitmap;
-		if(mOnBitmapCreatedListener!=null)
-			mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName);
+		if (mOnBitmapCreatedListener != null)
+			mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName,
+					pathMap.get(fileName));
+
+		if (bitmap != null && pathMap.containsKey(fileName)) {
+			saveBitmap(pathMap.get(fileName), bitmap);
+		}
 	}
 
 	public void initByteBuffer(ByteBuffer buffer, int size) {
 		buffer = ByteBuffer.allocateDirect(size);
 	}
-	
-	public interface OnBitmapCreatedListener{
-		public void onBitmapCreated(Bitmap bitmap,String fileName);
+
+	public interface OnBitmapCreatedListener {
+		public void onBitmapCreated(Bitmap bitmap, String videoPath,
+				String screenshotSavePath);
+	}
+
+	private void saveBitmap(String path, Bitmap bitmap) {
+		File file = new File(path);
+		if (file.exists())
+			file.delete();
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(file);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fos != null)
+					fos.close();
+			} catch (Exception e) {
+			}
+		}
+
 	}
 }
