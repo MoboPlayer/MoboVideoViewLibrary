@@ -26,14 +26,27 @@ package com.clov4r.moboplayer.android.nil.codec;
 
 public class SubtitleJni extends BaseJNILib {
 
+	private static SubtitleJni mSubtitleJni = null;
+
+	public static SubtitleJni getInstance() {
+		if (mSubtitleJni == null)
+			mSubtitleJni = new SubtitleJni();
+		return mSubtitleJni;
+	}
+	
 	/**
-	 * 打开字幕文件
+	 * open subtitle file
 	 * @param filePath
 	 * @param index
-	 * @return
+	 * @return <0 then failed
 	 */
-    public native String  openSubtitleFileInJNI(String filePath,int index);
+    public native int  openSubtitleFileInJNI(String filePath,int index);
 
+    /**
+     * close subtitle file
+     */
+    public native void closeSubtitle();
+    
     /**
      * 根据时间获取字幕内容
      * @param time
