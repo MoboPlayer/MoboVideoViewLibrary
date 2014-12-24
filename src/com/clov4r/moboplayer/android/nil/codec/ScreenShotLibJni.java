@@ -47,10 +47,10 @@ public class ScreenShotLibJni extends BaseJNILib {
 
 	private HashMap<String, String> pathMap = new HashMap<String, String>();
 
-	protected native String getThumbnail(String videoName, int position,
+	public native String getThumbnail(String videoName, int position,
 			int width, int height);
 
-	protected native String getIDRThumbnail(String videoName, int width, int height);
+	public native String getIDRThumbnail(String videoName, int width, int height);
 
 	OnBitmapCreatedListener mOnBitmapCreatedListener = null;
 
@@ -64,8 +64,9 @@ public class ScreenShotLibJni extends BaseJNILib {
 		getIDRThumbnail(videoPath, width, height);
 	}
 
-	public void getScreenShot(String videoPath, int position, int width,
+	public void getScreenShot(String videoPath, String thumbnailSavePath,int position, int width,
 			int height) {
+		pathMap.put(videoPath, thumbnailSavePath);
 		getThumbnail(videoPath, position, width, height);
 	}
 
