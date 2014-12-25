@@ -69,11 +69,6 @@ public class SubtitleJni extends BaseJNILib {
     public native void closeSubtitle();
     
     /**
-     * close subtitle file
-     */
-    public native void closeSubtitle();
-    
-    /**
      * 根据时间获取字幕内容
      * @param time
      * @return
