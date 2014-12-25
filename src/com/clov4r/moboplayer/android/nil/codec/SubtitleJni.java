@@ -24,6 +24,11 @@
  */
 package com.clov4r.moboplayer.android.nil.codec;
 
+import java.io.File;
+import java.io.InputStream;
+
+import org.apache.commons.io.FileUtils;
+
 public class SubtitleJni extends BaseJNILib {
 
 	private static SubtitleJni mSubtitleJni = null;
@@ -42,6 +47,27 @@ public class SubtitleJni extends BaseJNILib {
 	 */
     public native int  openSubtitleFileInJNI(String filePath,int index);
 
+    public int openSubtitleFile(String filePath,int index) {
+    	if(!isUtf8Encode(filePath)) {
+    		try {
+        		String tempPath = filePath.substring(0, filePath.length()-4)+"mobo_temp_utf-8.srt";
+        		File tempFile = new File(tempPath);
+        		if(!tempFile.exists()) {
+        			FileUtils.writeLines(tempFile, "UTF-8", FileUtils.readLines(new File(filePath), "GBK"));
+            	}
+				return openSubtitleFileInJNI(tempPath, index);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}        
+    	}
+    	return openSubtitleFileInJNI(filePath, index);
+    }
+    
+    /**
+     * close subtitle file
+     */
+    public native void closeSubtitle();
+    
     /**
      * close subtitle file
      */
@@ -61,6 +87,37 @@ public class SubtitleJni extends BaseJNILib {
      * @return 字幕个数 只要>0就表示存在
      */
     public native int isSubtitleExits(String file);
-
-
+    
+    /**
+     * file is utf-8?
+     * @param filePath
+     * @return
+     */
+    private boolean isUtf8Encode(String filePath) {
+		if(!filePath.endsWith("srt")) {
+			return true;
+		}
+		InputStream in = null;
+		try {
+			File file = new File(filePath);  
+			in= new java.io.FileInputStream(file);  
+			byte[] b = new byte[3];  
+			in.read(b);  
+			in.close();  
+			if (b[0] == -17 && b[1] == -69 && b[2] == -65)  
+			    return true;  
+			else  
+			    return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return true;
+		} finally {
+			if(in != null) {
+				try {
+					in.close();
+				} catch (Exception e) {
+				}
+			}
+		}
+	}
 }
