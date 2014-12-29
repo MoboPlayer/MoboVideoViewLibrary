@@ -64,29 +64,31 @@ public class ScreenShotLibJni extends BaseJNILib {
 		getIDRThumbnail(videoPath, width, height);
 	}
 
-	public void getScreenShot(String videoPath, String thumbnailSavePath,int position, int width,
-			int height) {
+	public void getScreenShot(String videoPath, String thumbnailSavePath,
+			int position, int width, int height) {
 		pathMap.put(videoPath, thumbnailSavePath);
 		getThumbnail(videoPath, position, width, height);
 	}
 
 	public void createBitmap(ByteBuffer bitmapData, String size, String fileName) {
-		IntBuffer intBuffer = bitmapData.asIntBuffer();
-		String[] sizeArray = size.split(",");
-		int[] data = new int[intBuffer.limit()];
-		intBuffer.get(data);
-		Bitmap bitmap = Bitmap.createBitmap(data,
-				Integer.parseInt(sizeArray[0]), Integer.parseInt(sizeArray[1]),
-				Config.ARGB_8888);
-		Log.e("ScreenShotLib", "" + size);
-		// return bitmap;
-		if (mOnBitmapCreatedListener != null)
-			mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName,
-					pathMap.get(fileName));
-
-		if (bitmap != null && pathMap.containsKey(fileName)) {
-			saveBitmap(pathMap.get(fileName), bitmap);
-		}
+		if (bitmapData != null) {
+			IntBuffer intBuffer = bitmapData.asIntBuffer();
+			String[] sizeArray = size.split(",");
+			int[] data = new int[intBuffer.limit()];
+			intBuffer.get(data);
+			Bitmap bitmap = Bitmap.createBitmap(data,
+					Integer.parseInt(sizeArray[0]),
+					Integer.parseInt(sizeArray[1]), Config.ARGB_8888);
+			Log.e("ScreenShotLib", "" + size);
+			// return bitmap;
+			if (bitmap != null && pathMap.containsKey(fileName)) {
+				saveBitmap(pathMap.get(fileName), bitmap);
+			}
+			if (mOnBitmapCreatedListener != null)
+				mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName,
+						pathMap.get(fileName));
+		} else if (mOnBitmapCreatedListener != null)
+			mOnBitmapCreatedListener.onBitmapCreatedFailed(fileName);
 	}
 
 	public void initByteBuffer(ByteBuffer buffer, int size) {
@@ -96,6 +98,8 @@ public class ScreenShotLibJni extends BaseJNILib {
 	public interface OnBitmapCreatedListener {
 		public void onBitmapCreated(Bitmap bitmap, String videoPath,
 				String screenshotSavePath);
+
+		public void onBitmapCreatedFailed(String videoPath);
 	}
 
 	private void saveBitmap(String path, Bitmap bitmap) {
