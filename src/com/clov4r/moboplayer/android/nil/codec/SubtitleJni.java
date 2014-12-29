@@ -45,9 +45,9 @@ public class SubtitleJni extends BaseJNILib {
 	 * @param index
 	 * @return <0 then failed
 	 */
-    public native int  openSubtitleFileInJNI(String filePath,int index);
+    public native int  openSubtitleFileInJNI(String filePath,int index, int subtiltle_index);
 
-    public int openSubtitleFile(String filePath,int index) {
+    public int openSubtitleFile(String filePath,int index, int subtiltle_index) {
     	if(!isUtf8Encode(filePath)) {
     		try {
         		String tempPath = filePath.substring(0, filePath.length()-4)+"mobo_temp_utf-8.srt";
@@ -55,26 +55,45 @@ public class SubtitleJni extends BaseJNILib {
         		if(!tempFile.exists()) {
         			FileUtils.writeLines(tempFile, "UTF-8", FileUtils.readLines(new File(filePath), "GBK"));
             	}
-				return openSubtitleFileInJNI(tempPath, index);
+				return openSubtitleFileInJNI(tempPath, index, subtiltle_index);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}        
     	}
-    	return openSubtitleFileInJNI(filePath, index);
+    	return openSubtitleFileInJNI(filePath, index, subtiltle_index);
+    }
+    
+    public int openSubtitleFile(String filePath,int index) {
+    	return openSubtitleFile(filePath, index, 0);
     }
     
     /**
      * close subtitle file
      */
-    public native void closeSubtitle();
+    public native void closeSubtitle(int subtiltle_index);
+    
+    /**
+     * close subtitle file
+     */
+    public void closeSubtitle() {
+    	closeSubtitle(0);
+    }
     
     /**
      * 根据时间获取字幕内容
      * @param time
      * @return
      */
-    public native String  getSubtitleByTime(int time);
+    public native String  getSubtitleByTime(int time, int subtiltle_index);
     
+    /**
+     * 根据时间获取字幕内容
+     * @param time
+     * @return
+     */
+    public String  getSubtitleByTime(int time) {
+    	return getSubtitleByTime(time, 0);
+    }
     
     /**
      * 字幕文件是否存在
