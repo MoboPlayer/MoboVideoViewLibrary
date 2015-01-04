@@ -247,14 +247,14 @@ public class LocalDecodeModelLib {
 	public boolean checkIsOnlineVideo(String path) {
 		if (path != null) {
 			path = path.toLowerCase();
-			// if (path.startsWith("http") || path.startsWith("mms")
-			// || path.startsWith("rtsp") || path.startsWith("rtp")
-			// || path.startsWith("rsvp") || path.startsWith("rtpc")) {
-			// return true;
-			// }
+			if (path.startsWith("http") || path.startsWith("mms")
+					|| path.startsWith("rtsp") || path.startsWith("rtp")
+					|| path.startsWith("rsvp") || path.startsWith("rtpc")) {
+				return true;
+			}
 			// return streamMap.containsKey(path);
 			for (int i = 0; i < streamType.length; i++)
-				if (path.startsWith(streamType[i]))
+				if (path.startsWith(streamType[i].toLowerCase()))
 					return true;
 		}
 		return false;
