@@ -90,7 +90,7 @@ public class ScreenShotLibJni extends BaseJNILib {
 				mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName,
 						pathMap.get(fileName));
 			
-			releaseByteBuffer(bitmapData);
+//			releaseByteBuffer(bitmapData);//部分设备报错
 			Log.e("", "release finished");
 		} else if (mOnBitmapCreatedListener != null)
 			mOnBitmapCreatedListener.onBitmapCreatedFailed(fileName);
