@@ -47,10 +47,10 @@ public class ScreenShotLibJni extends BaseJNILib {
 
 	private HashMap<String, String> pathMap = new HashMap<String, String>();
 
-	protected native String getThumbnail(String videoName, int position,
+	protected native Bitmap getThumbnail(String videoName, int position,
 			int width, int height);
 
-	protected native String getIDRThumbnail(String videoName, int width, int height);
+	protected native Bitmap getIDRThumbnail(String videoName, int width, int height);
 
 	protected native void releaseByteBuffer(ByteBuffer buffer);
 	
@@ -60,19 +60,19 @@ public class ScreenShotLibJni extends BaseJNILib {
 		mOnBitmapCreatedListener = listener;
 	}
 
-	public void getIDRFrameThumbnail(String videoPath,
+	public Bitmap getIDRFrameThumbnail(String videoPath,
 			String thumbnailSavePath, int width, int height) {
 		pathMap.put(videoPath, thumbnailSavePath);
-		getIDRThumbnail(videoPath, width, height);
+		return getIDRThumbnail(videoPath, width, height);
 	}
 
-	public void getScreenShot(String videoPath, String thumbnailSavePath,
+	public Bitmap getScreenShot(String videoPath, String thumbnailSavePath,
 			int position, int width, int height) {
 		pathMap.put(videoPath, thumbnailSavePath);
-		getThumbnail(videoPath, position, width, height);
+		return getThumbnail(videoPath, position, width, height);
 	}
 
-	public void createBitmap(ByteBuffer bitmapData, String size, String fileName) {
+	public Bitmap createBitmap(ByteBuffer bitmapData, String size, String fileName) {
 		if (bitmapData != null) {
 			IntBuffer intBuffer = bitmapData.asIntBuffer();
 			String[] sizeArray = size.split(",");
@@ -89,11 +89,12 @@ public class ScreenShotLibJni extends BaseJNILib {
 			if (mOnBitmapCreatedListener != null)
 				mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName,
 						pathMap.get(fileName));
-			
-//			releaseByteBuffer(bitmapData);//部分设备报错
+//			releaseByteBuffer(bitmapData);
 			Log.e("", "release finished");
+			return bitmap;
 		} else if (mOnBitmapCreatedListener != null)
 			mOnBitmapCreatedListener.onBitmapCreatedFailed(fileName);
+		return null;
 	}
 
 	public void initByteBuffer(ByteBuffer buffer, int size) {
