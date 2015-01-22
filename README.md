@@ -1,151 +1,151 @@
-#MoboViceoView
-##MoboVideoView£¬·â×°ÁËÊÓÆµ²¥·ÅÏà¹ØµÄÒ»Ğ©½Ó¿Ú¡£
+#MoboVideoView
+##MoboVideoViewï¼Œå°è£…äº†è§†é¢‘æ’­æ”¾ç›¸å…³çš„ä¸€äº›æ¥å£ã€‚
 
-##³£Á¿ÈçÏÂ£º
+##å¸¸é‡å¦‚ä¸‹ï¼š
 
 ```java
-    public static int decode_mode_hard = 1; //Ó²½âÂë
-    public static int decode_mode_mediacodec = 2; //mediacodec½âÂë£¬½éÓÚÓ²½âºÍÈí½âÖ®¼ä£¬½öÖ§³Ö4.1ÒÔÉÏÉè±¸
-	public static int decode_mode_soft = 3;//Èí½âÂë
+    public static int decode_mode_hard = 1; //ç¡¬è§£ç 
+    public static int decode_mode_mediacodec = 2; //mediacodecè§£ç ï¼Œä»‹äºç¡¬è§£å’Œè½¯è§£ä¹‹é—´ï¼Œä»…æ”¯æŒ4.1ä»¥ä¸Šè®¾å¤‡
+	public static int decode_mode_soft = 3;//è½¯è§£ç 
 ```
-##·½·¨ÈçÏÂ£º
+##æ–¹æ³•å¦‚ä¸‹ï¼š
 ```java
     public void loadNativeLibs()
-    //¼ÓÔØÏàÓ¦µÄ½âÂë°ü£¬ÖÁÉÙÒªµ÷ÓÃÒ»´Î
+    //åŠ è½½ç›¸åº”çš„è§£ç åŒ…ï¼Œè‡³å°‘è¦è°ƒç”¨ä¸€æ¬¡
 
     public void setOnVideoStateChangedListener(OnVideoStateChangedListener listener)
-    ²¥·Å×´Ì¬¸Ä±ä£¬»Øµ÷µÄ½Ó¿Ú£¨³õÊ¹»¯ÊÓÆµ½ÏºÄÊ±£¬¹ÊĞèÔÚÒì²½Ö´ĞĞºó»Øµ÷´Ë½Ó¿Ú£©
+    æ’­æ”¾çŠ¶æ€æ”¹å˜ï¼Œå›è°ƒçš„æ¥å£ï¼ˆåˆä½¿åŒ–è§†é¢‘è¾ƒè€—æ—¶ï¼Œæ•…éœ€åœ¨å¼‚æ­¥æ‰§è¡Œåå›è°ƒæ­¤æ¥å£ï¼‰
 
     public void setVideoPath(String path, String params)
-    ÉèÖÃĞèÒª²¥·ÅµÄÊÓÆµÂ·¾¶¼°ÆäËû²ÎÊı
+    è®¾ç½®éœ€è¦æ’­æ”¾çš„è§†é¢‘è·¯å¾„åŠå…¶ä»–å‚æ•°
     Parameters:
-    path  ÊÓÆµÂ·¾¶
-    params  ÄÚÖÃ×ÖÄ»ºÍÒô¹ìµÄindex£¬¸ñÊ½Îª£ºaudioTrackIndex+¡±\n¡±+subtitleIndex£¬¿É²»Ö¸¶¨
+    path  è§†é¢‘è·¯å¾„
+    params  å†…ç½®å­—å¹•å’ŒéŸ³è½¨çš„indexï¼Œæ ¼å¼ä¸ºï¼šaudioTrackIndex+â€\nâ€+subtitleIndexï¼Œå¯ä¸æŒ‡å®š
 
     public void setVideoPath(String path)
-    Í¬ÉÏ
+    åŒä¸Š
 
     public void resetDecodeMode(int decodeMode)
-    ÖØÖÃ½âÂë·½Ê½
+    é‡ç½®è§£ç æ–¹å¼
     Parameters:
-    decodeMode ½âÂë·½Ê½£ºÈí¡¢Ó²¡¢»òmediacodec
+    decodeMode è§£ç æ–¹å¼ï¼šè½¯ã€ç¡¬ã€æˆ–mediacodec
 
     public boolean isPlaying()
-    µ±Ç°ÊÇ·ñ²¥·Å×´Ì¬
+    å½“å‰æ˜¯å¦æ’­æ”¾çŠ¶æ€
 
     public int getDecodeMode()
-    »ñÈ¡µ±Ç°½âÂë·½Ê½
+    è·å–å½“å‰è§£ç æ–¹å¼
 
     public String getCurrentVideoPath()
-    »ñÈ¡µ±Ç°²¥·ÅÊÓÆµÂ·¾¶
+    è·å–å½“å‰æ’­æ”¾è§†é¢‘è·¯å¾„
 
     public void start()
-    ¿ªÊ¼²¥·Å
+    å¼€å§‹æ’­æ”¾
 
     public void pause()
-    ÔİÍ£
+    æš‚åœ
 
     public void stop()
-    Í£Ö¹£º°üÀ¨µ±Ç°²¥·ÅÊÓÆµ¡¢×ÖÄ»¡¢ÒôÆµµÄ¾ùÍ£Ö¹
+    åœæ­¢ï¼šåŒ…æ‹¬å½“å‰æ’­æ”¾è§†é¢‘ã€å­—å¹•ã€éŸ³é¢‘çš„å‡åœæ­¢
 
     public void seekTo(int position) 
-    Ìø×ªµ½£¬µ¥Î»Ãë
+    è·³è½¬åˆ°ï¼Œå•ä½ç§’
 
     public int getCurrentPosition()
-    »ñÈ¡µ±Ç°²¥·Åµ½µÄÎ»ÖÃ£¬µ¥Î»£ººÁÃë
+    è·å–å½“å‰æ’­æ”¾åˆ°çš„ä½ç½®ï¼Œå•ä½ï¼šæ¯«ç§’
 
     public int getDuration()
-    »ñÈ¡×ÜÊ±³¤£¬µ¥Î»£ººÁÃë
+    è·å–æ€»æ—¶é•¿ï¼Œå•ä½ï¼šæ¯«ç§’
 
     public int getVideoWidth()
-    »ñÈ¡µ±Ç°²¥·ÅÊÓÆµµÄ¿í¶È£¬µ¥Î»£ºÏñËØ
+    è·å–å½“å‰æ’­æ”¾è§†é¢‘çš„å®½åº¦ï¼Œå•ä½ï¼šåƒç´ 
 
     public int getVideoHeight()
-    »ñÈ¡µ±Ç°²¥·ÅÊÓÆµµÄ¸ß¶È£¬µ¥Î»£ºÏñËØ
+    è·å–å½“å‰æ’­æ”¾è§†é¢‘çš„é«˜åº¦ï¼Œå•ä½ï¼šåƒç´ 
 
     public int changeAudioChannel(int index)
-    ÇĞ»»Òô¹ì
+    åˆ‡æ¢éŸ³è½¨
 
     public String scanMediaFile(String filePath, String savePath, int time,
 			int width, int height, int amount)
-    É¨ÃèÊÓÆµ²¢²úÉúËõÂÔÍ¼
+    æ‰«æè§†é¢‘å¹¶äº§ç”Ÿç¼©ç•¥å›¾
     Parameters:
-        filePath ÊÓÆµÂ·¾¶
-        savePath Í¼Æ¬±£´æÂ·¾¶£¨²»°üº¬Í¼Æ¬ºó×ºÃû£¬×Ô¶¯Éú³ÉpngÍ¼Æ¬£©
-        time ÒªÉú³É½ØÍ¼µÄÊ±¼äµã£¬µ¥Î»ºÁÃë
-        width Í¼Æ¬¿í¶È£¨Ôİ²»Æğ×÷ÓÃ£¬Éú³ÉÍ¼Æ¬¿íÓëÊÓÆµµÄ¿í¶ÈµÈÍ¬£©
-        height Í¼Æ¬¸ß¶È£¨Ôİ²»Æğ×÷ÓÃ£¬Éú³ÉÍ¼Æ¬¸ßÓëÊÓÆµµÄ¸ß¶ÈµÈÍ¬£©
-        amountÒªÉú³ÉµÄÍ¼Æ¬ÕÅÊı
-        ×¢£º½ØÍ¼»òÉú³ÉËõÂÔÍ¼¿ÉÍ¨¹ıScreenShotLibÀàÀ´Íê³É£¬Àï±ß·â×°ÁËÑ¹ËõºÍ¶ş´Î±£´æÍ¼Æ¬µÄ·½·¨
+        filePath è§†é¢‘è·¯å¾„
+        savePath å›¾ç‰‡ä¿å­˜è·¯å¾„ï¼ˆä¸åŒ…å«å›¾ç‰‡åç¼€åï¼Œè‡ªåŠ¨ç”Ÿæˆpngå›¾ç‰‡ï¼‰
+        time è¦ç”Ÿæˆæˆªå›¾çš„æ—¶é—´ç‚¹ï¼Œå•ä½æ¯«ç§’
+        width å›¾ç‰‡å®½åº¦ï¼ˆæš‚ä¸èµ·ä½œç”¨ï¼Œç”Ÿæˆå›¾ç‰‡å®½ä¸è§†é¢‘çš„å®½åº¦ç­‰åŒï¼‰
+        height å›¾ç‰‡é«˜åº¦ï¼ˆæš‚ä¸èµ·ä½œç”¨ï¼Œç”Ÿæˆå›¾ç‰‡é«˜ä¸è§†é¢‘çš„é«˜åº¦ç­‰åŒï¼‰
+        amountè¦ç”Ÿæˆçš„å›¾ç‰‡å¼ æ•°
+        æ³¨ï¼šæˆªå›¾æˆ–ç”Ÿæˆç¼©ç•¥å›¾å¯é€šè¿‡ScreenShotLibç±»æ¥å®Œæˆï¼Œé‡Œè¾¹å°è£…äº†å‹ç¼©å’ŒäºŒæ¬¡ä¿å­˜å›¾ç‰‡çš„æ–¹æ³•
 
     public void setIsLive(boolean live)
-    ÉèÖÃÊÇ·ñÎªÖ±²¥ÀàĞÍÁ÷Ã½Ìå
+    è®¾ç½®æ˜¯å¦ä¸ºç›´æ’­ç±»å‹æµåª’ä½“
 
     public void setBaseHandler(Handler handler)
-    ÉèÖÃhandler£¬openSA·½·¨½âÎö³ö×ÖÄ»»òÊÓÆµÎÄ¼şÄÚÖÃ×ÖÄ»Á÷ºóÓÃÒÔ»Øµ÷£¬ÏàÓ¦message.what==111
+    è®¾ç½®handlerï¼ŒopenSAæ–¹æ³•è§£æå‡ºå­—å¹•æˆ–è§†é¢‘æ–‡ä»¶å†…ç½®å­—å¹•æµåç”¨ä»¥å›è°ƒï¼Œç›¸åº”message.what==111
 
     public String getCurrentExtSubtitleSize(String path, int currentTime,
 			int sourceIndex, int streamIndex)
-    »ñÈ¡Í¼ĞÎ×ÖÄ»³ß´ç
+    è·å–å›¾å½¢å­—å¹•å°ºå¯¸
     Parameters:
-      path ×ÖÄ»»òÊÓÆµÂ·¾¶
-      currentTime µ±Ç°Ê±¼ä
-      sourceIndex Ïê¼ûopenSA·½·¨ÖĞµÄ½âÊÍ
-      streamIndex Ö¸¶¨×ÖÄ»Á÷ÔÚ×ÖÄ»»òÊÓÆµÖĞµÄindex
+      path å­—å¹•æˆ–è§†é¢‘è·¯å¾„
+      currentTime å½“å‰æ—¶é—´
+      sourceIndex è¯¦è§openSAæ–¹æ³•ä¸­çš„è§£é‡Š
+      streamIndex æŒ‡å®šå­—å¹•æµåœ¨å­—å¹•æˆ–è§†é¢‘ä¸­çš„index
 
     public String getCurrentExtSubtitleInfo(String path, int sourceIndex,
 			int streamIndex)
-    »ñÈ¡µ±Ç°×ÖÄ»ĞÅÏ¢
+    è·å–å½“å‰å­—å¹•ä¿¡æ¯
     Parameters:
-      path ×ÖÄ»»òÊÓÆµÂ·¾¶
-      currentTime µ±Ç°Ê±¼ä
-      sourceIndex Ïê¼ûopenSA·½·¨ÖĞµÄ½âÊÍ
-      streamIndex Ö¸¶¨×ÖÄ»Á÷ÔÚ×ÖÄ»»òÊÓÆµÖĞµÄindex
+      path å­—å¹•æˆ–è§†é¢‘è·¯å¾„
+      currentTime å½“å‰æ—¶é—´
+      sourceIndex è¯¦è§openSAæ–¹æ³•ä¸­çš„è§£é‡Š
+      streamIndex æŒ‡å®šå­—å¹•æµåœ¨å­—å¹•æˆ–è§†é¢‘ä¸­çš„index
 
     public String getCurrentSubtitle(int currentTime)
-    »ñÈ¡µ±Ç°×ÖÄ»£¨ÎÄ×Ö£©
+    è·å–å½“å‰å­—å¹•ï¼ˆæ–‡å­—ï¼‰
 
     public Bitmap getCurrentImageSubtitle(int currentTime)
-    »ñÈ¡µ±Ç°Í¼ĞÎ×ÖÄ»
+    è·å–å½“å‰å›¾å½¢å­—å¹•
 
     public void openSA(String SAPath, int type, int sourceIndex, int streamIndex)
-    ½âÎöÒ»¸öÊÓÆµ£¨°üº¬¶à¸ö×ÖÄ»»òÒô¹ì£©»ò×ÖÄ»ÎÄ¼ş£¬²¢´ò¿ªÖ¸¶¨µÄ×ÖÄ»Á÷»òÒô¹ìÁ÷
+    è§£æä¸€ä¸ªè§†é¢‘ï¼ˆåŒ…å«å¤šä¸ªå­—å¹•æˆ–éŸ³è½¨ï¼‰æˆ–å­—å¹•æ–‡ä»¶ï¼Œå¹¶æ‰“å¼€æŒ‡å®šçš„å­—å¹•æµæˆ–éŸ³è½¨æµ
     Parameters:
-      SAPath ×ÖÄ»»òÊÓÆµÂ·¾¶
-      type ½âÎöÀàĞÍ£¬1£º½âÎöÎÄ¼şÖĞÖ¸¶¨µÄÒô¹ì£»3£º½âÎöÎÄ¼şÖĞÖ¸¶¨µÄ×ÖÄ»
-      sourceIndex ÓÃÒÔÇø·Ö¶ÔÍ¬Ò»¸öÎÄ¼şµÄ²»Í¬´ò¿ª²Ù×÷£¨ÊÓÆµÎÄ¼şÖĞ¿ÉÄÜÍ¬Ê±º¬ÓĞ£º¶à¸ö×ÖÄ»Á÷ºÍ¶à¸öÒôÆµÁ÷£©£¬¿ª·¢ÕßĞèÒª×ÔĞĞÎ¬»¤Ò»¸öÈ«¾ÖÕûĞÎ±äÁ¿£¬Ã¿´ÎÖ´ĞĞopenSA£¬¸Ã±äÁ¿×ÔĞĞ¼ÓÒ»ºó´«Èë¼´¿É¡£
-      streamIndex Ö¸¶¨×ÖÄ»Á÷ÔÚ×ÖÄ»»òÊÓÆµÖĞµÄindex
+      SAPath å­—å¹•æˆ–è§†é¢‘è·¯å¾„
+      type è§£æç±»å‹ï¼Œ1ï¼šè§£ææ–‡ä»¶ä¸­æŒ‡å®šçš„éŸ³è½¨ï¼›3ï¼šè§£ææ–‡ä»¶ä¸­æŒ‡å®šçš„å­—å¹•
+      sourceIndex ç”¨ä»¥åŒºåˆ†å¯¹åŒä¸€ä¸ªæ–‡ä»¶çš„ä¸åŒæ‰“å¼€æ“ä½œï¼ˆè§†é¢‘æ–‡ä»¶ä¸­å¯èƒ½åŒæ—¶å«æœ‰ï¼šå¤šä¸ªå­—å¹•æµå’Œå¤šä¸ªéŸ³é¢‘æµï¼‰ï¼Œå¼€å‘è€…éœ€è¦è‡ªè¡Œç»´æŠ¤ä¸€ä¸ªå…¨å±€æ•´å½¢å˜é‡ï¼Œæ¯æ¬¡æ‰§è¡ŒopenSAï¼Œè¯¥å˜é‡è‡ªè¡ŒåŠ ä¸€åä¼ å…¥å³å¯ã€‚
+      streamIndex æŒ‡å®šå­—å¹•æµåœ¨å­—å¹•æˆ–è§†é¢‘ä¸­çš„index
     
     public void closeSA(String SAPath, int type, int sourceIndex,
 			int streamIndex)
-    ¹Ø±Õ¶ÔÓ¦µÄ×ÖÄ»»òÒôÆµ
-      ²ÎÊı½âÎöÏê¼ûopenSA
+    å…³é—­å¯¹åº”çš„å­—å¹•æˆ–éŸ³é¢‘
+      å‚æ•°è§£æè¯¦è§openSA
 
     public void setBufferedTime(int time)
-    ÉèÖÃ»º³åÊ±¼ä£¬µ¥Î»Ãë¡£
+    è®¾ç½®ç¼“å†²æ—¶é—´ï¼Œå•ä½ç§’ã€‚
 
     public int getBufferStatus()
-    ·µ»Ø-1 Ã»ÓĞÔÚ»º³å£»·µ»Ø0-100 »º³åµÄ°Ù·Ö±È£¨¸ù¾İÉèÖÃµÄBufferTime£©¡£
+    è¿”å›-1 æ²¡æœ‰åœ¨ç¼“å†²ï¼›è¿”å›0-100 ç¼“å†²çš„ç™¾åˆ†æ¯”ï¼ˆæ ¹æ®è®¾ç½®çš„BufferTimeï¼‰ã€‚
 
     PlayerActivityBase
-    ²¥·ÅÆ÷½çÃæµÄ»ùÀà£¬·â×°ÁËÒ»Ğ©²¥·ÅÆ÷³£ÓÃµÄ³£Á¿¡¢±äÁ¿ºÍ·½·¨
+    æ’­æ”¾å™¨ç•Œé¢çš„åŸºç±»ï¼Œå°è£…äº†ä¸€äº›æ’­æ”¾å™¨å¸¸ç”¨çš„å¸¸é‡ã€å˜é‡å’Œæ–¹æ³•
 ```
 
-##³£Á¿ÈçÏÂ£º
+##å¸¸é‡å¦‚ä¸‹ï¼š
 ```java
-	/** Ä¬ÈÏ±ÈÀıºÍ´óĞ¡ **/
+	/** é»˜è®¤æ¯”ä¾‹å’Œå¤§å° **/
 	static final protected int PLAY_DISPLAY_MODE_NORMAL = 0;
-	/** °´±ÈÀıËõ·ÅÖÁÈ«ÆÁ **/
+	/** æŒ‰æ¯”ä¾‹ç¼©æ”¾è‡³å…¨å± **/
 	static final protected int PLAY_DISPLAY_MODE_FULL_SCREEN = 1;
-	/** ÆÌÂúÆÁÄ» **/
+	/** é“ºæ»¡å±å¹• **/
 	static final protected int PLAY_DISPLAY_MODE_FILL = 2;
-	/** 16£º9 **/
+	/** 16ï¼š9 **/
 	static final protected int PLAY_DISPLAY_MODE_NINE = 3;
-	/** 4£º3 **/
+	/** 4ï¼š3 **/
 	static final protected int PLAY_DISPLAY_MODE_FOUR = 4;
-	/** ×Ô¶¨Òå **/
+	/** è‡ªå®šä¹‰ **/
 	static final protected int PLAY_DISPLAY_MODE_CUSTOM = 5;
-	/** ÊÖÊÆµ÷½Ú **/
+	/** æ‰‹åŠ¿è°ƒèŠ‚ **/
 	static final protected int PLAY_DISPLAY_MODE_GESTURE = 6;
     
 	public static final int state_play = 0;
@@ -153,87 +153,87 @@
 	public static final int state_stop = 2;
 ```
 
-##±äÁ¿ÈçÏÂ£º
+##å˜é‡å¦‚ä¸‹ï¼š
 ```java
-	protected int player_state = state_stop;//²¥·Å×´Ì¬
-	protected int displayMode = PLAY_DISPLAY_MODE_FULL_SCREEN;//²¥·Å±ÈÀı
-	private int videoWidth, videoHeight;//µ±Ç°²¥·ÅÊÓÆµµÄ¿íºÍ¸ß
-	private boolean isHorizontal = true;//ÊÇ·ñºáÆÁ
-	/** µ±Ç°²¥·ÅµØÖ· **/
+	protected int player_state = state_stop;//æ’­æ”¾çŠ¶æ€
+	protected int displayMode = PLAY_DISPLAY_MODE_FULL_SCREEN;//æ’­æ”¾æ¯”ä¾‹
+	private int videoWidth, videoHeight;//å½“å‰æ’­æ”¾è§†é¢‘çš„å®½å’Œé«˜
+	private boolean isHorizontal = true;//æ˜¯å¦æ¨ªå±
+	/** å½“å‰æ’­æ”¾åœ°å€ **/
 	protected String currentVideoPath = null;
-	/** ²¥·Å×é¼şµÄview **/
+	/** æ’­æ”¾ç»„ä»¶çš„view **/
 	protected MoboVideoView mMoboVideoView = null;
-	/** µ±Ç°²¥·Å»­ÃæµÄ¿íºÍ¸ß **/
+	/** å½“å‰æ’­æ”¾ç”»é¢çš„å®½å’Œé«˜ **/
 	protected int playerWidth, playerHeight;
-	/** ¸¡¶¯´°¿Ú×´Ì¬ **/
+	/** æµ®åŠ¨çª—å£çŠ¶æ€ **/
 	protected boolean isFloatWindowMode = false;
-	/** ÊÓÆµÊ±³¤£¬µ¥Î»£ºÃë **/
+	/** è§†é¢‘æ—¶é•¿ï¼Œå•ä½ï¼šç§’ **/
 	protected int duration = 0;
-	/** µ±Ç°²¥·ÅÎ»ÖÃ£¬µ¥Î»£ºÃë **/
+	/** å½“å‰æ’­æ”¾ä½ç½®ï¼Œå•ä½ï¼šç§’ **/
 	protected int currentPosition = 0;
-	/** µ±Ç°²¥·ÅµÄÊÓÆµÔÚÁĞ±íÖĞµÄindex **/
+	/** å½“å‰æ’­æ”¾çš„è§†é¢‘åœ¨åˆ—è¡¨ä¸­çš„index **/
 	protected int currentVideoIndex = 0;
-	/** ²¥·ÅĞèÒª´«µİµÄ²ÎÊı£¬¸ñÊ½Îª£ºÒô¹ìµÄindex\n×ÖÄ»µÄindex \n ĞÔÄÜ»ò»­ÖÊÓÅÏÈ **/
+	/** æ’­æ”¾éœ€è¦ä¼ é€’çš„å‚æ•°ï¼Œæ ¼å¼ä¸ºï¼šéŸ³è½¨çš„index\nå­—å¹•çš„index \n æ€§èƒ½æˆ–ç”»è´¨ä¼˜å…ˆ **/
 	protected String videoParams = null;
 ```
-##³£ÓÃ·½·¨ÈçÏÂ£º
+##å¸¸ç”¨æ–¹æ³•å¦‚ä¸‹ï¼š
 ```java
     protected void showFloatPlayerByHomeKey(boolean enable)
-    ÉèÖÃ¡°ÊÇ·ñÔÚ°´ÏÂHome¼üÊ±¡±µ¯³öĞü¸¡´°¿Ú
+    è®¾ç½®â€œæ˜¯å¦åœ¨æŒ‰ä¸‹Homeé”®æ—¶â€å¼¹å‡ºæ‚¬æµ®çª—å£
 
     protected void setFloatPlayerListener(FloatPlayerListener listener)
-    ÉèÖÃĞü¸¡´°¿Ú»Øµ÷½Ó¿Ú
+    è®¾ç½®æ‚¬æµ®çª—å£å›è°ƒæ¥å£
 
     protected void setVideoPath(String path, String playParams, int decodeMode)
-    ²¥·ÅÊÓÆµ
+    æ’­æ”¾è§†é¢‘
     Parameters:
-        path ÊÓÆµÂ·¾¶
-        playParams ²ÎÊı£¬Ïê¼ûMoboVideoViewÖĞµÄ½âÊÍ
-        decodeMode ½âÂë·½Ê½
+        path è§†é¢‘è·¯å¾„
+        playParams å‚æ•°ï¼Œè¯¦è§MoboVideoViewä¸­çš„è§£é‡Š
+        decodeMode è§£ç æ–¹å¼
 
     protected void setSubtitle(String subPath, int streamIndex)
-    ½âÎö×ÖÄ»
+    è§£æå­—å¹•
     Parameters:
-        path ×ÖÄ»»òÊÓÆµÎÄ¼şÂ·¾¶
-        streamIndex Ö¸¶¨ĞèÒª½âÎö×ÖÄ»Á÷µÄindex
+        path å­—å¹•æˆ–è§†é¢‘æ–‡ä»¶è·¯å¾„
+        streamIndex æŒ‡å®šéœ€è¦è§£æå­—å¹•æµçš„index
 
     protected void playAudioOnly(String videoPath, int audioIndex)
-    Ö»²¥·ÅÉùÒô
+    åªæ’­æ”¾å£°éŸ³
     Parameters:
-        videoPath  ÊÓÆµÂ·¾¶
-        audioIndex  ´ı²¥·ÅÉùÒôµÄindex
+        videoPath  è§†é¢‘è·¯å¾„
+        audioIndex  å¾…æ’­æ”¾å£°éŸ³çš„index
 
     protected void changeAudioTrack(int index)
-    ÇĞ»»Òô¹ì
+    åˆ‡æ¢éŸ³è½¨
 
     protected String getTextSubtitle(int time)
-    »ñÈ¡Ö¸¶¨Ê±¼äµÄ×ÖÄ»£¨ÎÄ×Ö£©
+    è·å–æŒ‡å®šæ—¶é—´çš„å­—å¹•ï¼ˆæ–‡å­—ï¼‰
 
     protected Bitmap getImageSubtitle(int time) 
-    »ñÈ¡Ö¸¶¨Ê±¼äµÄ×ÖÄ»£¨Í¼ĞÎ£©
+    è·å–æŒ‡å®šæ—¶é—´çš„å­—å¹•ï¼ˆå›¾å½¢ï¼‰
 
     protected void enableScreenOnSetting()
-    ÆÁÄ»³£ÁÁ
+    å±å¹•å¸¸äº®
 
     protected void releaseScreenOnSetting()
-    ÊÍ·ÅÆÁÄ»³£ÁÁ
+    é‡Šæ”¾å±å¹•å¸¸äº®
 
     protected void setPlayerScale(int displayMode)
-    ÉèÖÃ²¥·Å»­ÃæµÄ²¥·Å±ÈÀı
+    è®¾ç½®æ’­æ”¾ç”»é¢çš„æ’­æ”¾æ¯”ä¾‹
     protected ArrayList<String> getSubtitleList(String subtitleInfo)
-    ¸ù¾İbaseHandlerÖĞ»ñµÃµÄ×ÖÄ»ĞÅÏ¢£¬½âÎö³ö¸ÃÊÓÆµ»ò×ÖÄ»ÖĞ¸÷¸ö×ÖÄ»Á÷µÄĞÅÏ¢
+    æ ¹æ®baseHandlerä¸­è·å¾—çš„å­—å¹•ä¿¡æ¯ï¼Œè§£æå‡ºè¯¥è§†é¢‘æˆ–å­—å¹•ä¸­å„ä¸ªå­—å¹•æµçš„ä¿¡æ¯
 
     protected void changeToFloatPlayer()
-    ´ò¿ªĞü¸¡´°¿Ú
+    æ‰“å¼€æ‚¬æµ®çª—å£
 
     protected void changeToNormalPlayer()
-    Ğü¸¡´°¿Ú»Ö¸´ÖÁÆÕÍ¨´°¿Ú²¥·Å
+    æ‚¬æµ®çª—å£æ¢å¤è‡³æ™®é€šçª—å£æ’­æ”¾
 ```
 
 #SubtitleJni
-##SubtitleJni ×ÖÄ»Ïà¹Ø½Ó¿Ú
+##SubtitleJni å­—å¹•ç›¸å…³æ¥å£
 
-##·½·¨ÈçÏÂ
+##æ–¹æ³•å¦‚ä¸‹
 ```java
 	/**
 	 * You cannot use interface of subtitle if you are not call this method.
@@ -254,7 +254,7 @@
     public native void closeSubtitle();
     
     /**
-     * ¸ù¾İÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈİ
+     * æ ¹æ®æ—¶é—´è·å–å­—å¹•å†…å®¹
      * @param time
      * @return
      */
@@ -262,9 +262,9 @@
     
     
     /**
-     * ×ÖÄ»ÎÄ¼şÊÇ·ñ´æÔÚ
+     * å­—å¹•æ–‡ä»¶æ˜¯å¦å­˜åœ¨
      * @param file
-     * @return ×ÖÄ»¸öÊı Ö»Òª>0¾Í±íÊ¾´æÔÚ
+     * @return å­—å¹•ä¸ªæ•° åªè¦>0å°±è¡¨ç¤ºå­˜åœ¨
      */
     public native int isSubtitleExits(String file);
 ```
