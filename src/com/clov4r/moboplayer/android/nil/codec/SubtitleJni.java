@@ -50,6 +50,21 @@ public class SubtitleJni extends BaseJNILib {
 	public native int openSubtitleFileInJNI(String filePath, int index,
 			int subtiltle_index);
 
+	/**
+	 * open subtitle file
+	 * 
+	 * @param filePath
+	 * @param index
+	 * @return <0 then failed
+	 */
+	public native int openSubtitleFileInJNI2(String filePath, int index,
+			int subtiltle_index);
+	/**
+	 * 预解码方式：一次性解码完所有字幕。优点：取字幕时效率高；缺点：打开字幕时等待时间可能较长（字幕越多时间越长）
+	 * @param filePath
+	 * @param index
+	 * @return
+	 */
 	public int openSubtitleFile(String filePath, int index, int subtiltle_index) {
 		String charSet = getFilecharset(new File(filePath));
 		if (!charSet.equals("UTF-8")) {
@@ -61,16 +76,59 @@ public class SubtitleJni extends BaseJNILib {
 					FileUtils.writeLines(tempFile, "UTF-8",
 							FileUtils.readLines(new File(filePath), charSet));
 				}
-				return openSubtitleFileInJNI(tempPath, index, subtiltle_index);
+				return openSubtitleFileInJNI(tempPath, index,
+						subtiltle_index);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return openSubtitleFileInJNI(filePath, index, subtiltle_index);
 	}
+	/**
+	 * 按需解码方式：到相应的时间点时再解码相应的字幕。优点：打开较快；缺点：获取字幕效率略低
+	 * @param filePath
+	 * @param index
+	 * @return
+	 */
+	public int openSubtitleFile_2(String filePath, int index,
+			int subtiltle_index) {
+		String charSet = getFilecharset(new File(filePath));
+		if (!charSet.equals("UTF-8")) {
+			try {
+				String tempPath = filePath.substring(0, filePath.length() - 4)
+						+ "mobo_temp_utf-8.srt";
+				File tempFile = new File(tempPath);
+				if (!tempFile.exists()) {
+					FileUtils.writeLines(tempFile, "UTF-8",
+							FileUtils.readLines(new File(filePath), charSet));
+				}
+				return openSubtitleFileInJNI2(tempPath, index,
+						subtiltle_index);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return openSubtitleFileInJNI2(filePath, index, subtiltle_index);
+	}
 
+	/**
+	 * 预解码方式：一次性解码完所有字幕。优点：取字幕时效率高；缺点：打开字幕时等待时间可能较长（字幕越多时间越长）
+	 * @param filePath
+	 * @param index
+	 * @return
+	 */
 	public int openSubtitleFile(String filePath, int index) {
 		return openSubtitleFile(filePath, index, 0);
+	}
+
+	/**
+	 * 按需解码方式：到相应的时间点时再解码相应的字幕。优点：打开较快；缺点：获取字幕效率略低
+	 * @param filePath
+	 * @param index
+	 * @return
+	 */
+	public int openSubtitleFile_2(String filePath, int index) {
+		return openSubtitleFile_2(filePath, index, 0);
 	}
 
 	/**
@@ -86,12 +144,46 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
+	 * close subtitle file
+	 */
+	public native void closeSubtitle2(int subtiltle_index);
+
+	/**
+	 * close subtitle file
+	 */
+	public void closeSubtitle_2() {
+		closeSubtitle2(0);
+	}
+
+	/**
 	 * 根据时间获取字幕内容
 	 * 
 	 * @param time
+	 * 单位：毫秒
 	 * @return
 	 */
 	public native String getSubtitleByTime(int time, int subtiltle_index);
+
+	/**
+	 * 根据时间获取字幕内容
+	 * @param time
+	 * 单位：毫秒
+	 * @param subtiltle_index
+	 * @param time_diff
+	 * @return
+	 */
+	public native String getSubtitleByTime2(int time, int subtiltle_index, int time_diff);
+
+	/**
+	 * 根据时间获取字幕内容
+	 * 
+	 * @param time
+	 * 单位：毫秒
+	 * @return
+	 */
+	public String getSubtitleByTime(int time) {
+		return getSubtitleByTime(time, 0);
+	}
 
 	/**
 	 * 根据时间获取字幕内容
@@ -99,8 +191,8 @@ public class SubtitleJni extends BaseJNILib {
 	 * @param time
 	 * @return
 	 */
-	public String getSubtitleByTime(int time) {
-		return getSubtitleByTime(time, 0);
+	public String getSubtitleByTime_2(int time) {
+		return getSubtitleByTime2(time, 0, 100);
 	}
 
 	public native int getSubtitleType(int subtiltle_index);
@@ -138,22 +230,22 @@ public class SubtitleJni extends BaseJNILib {
 			bis.mark(0);
 			int read = bis.read(first3Bytes, 0, 3);
 			if (read == -1) {
-				return charset; 
+				return charset;
 			} else if (first3Bytes[0] == (byte) 0xFF
 					&& first3Bytes[1] == (byte) 0xFE) {
 				charset = "UTF-16LE";
 				checked = true;
 			} else if (first3Bytes[0] == (byte) 0xFE
 					&& first3Bytes[1] == (byte) 0xFF) {
-				charset = "UTF-16BE"; 
+				charset = "UTF-16BE";
 				checked = true;
 			} else if (first3Bytes[0] == (byte) 0xEF
 					&& first3Bytes[1] == (byte) 0xBB
 					&& first3Bytes[2] == (byte) 0xBF) {
-				charset = "UTF-8"; 
+				charset = "UTF-8";
 				checked = true;
 			}
-//			bis.reset();
+			// bis.reset();
 			if (!checked) {
 				int loc = 0;
 				while ((read = bis.read()) != -1) {
@@ -162,13 +254,13 @@ public class SubtitleJni extends BaseJNILib {
 						charset = "GBK";
 						break;
 					}
-					if (0x80 <= read && read <= 0xBF) { 
+					if (0x80 <= read && read <= 0xBF) {
 						charset = "GBK";
 						break;
 					}
 					if (0xC0 <= read && read <= 0xDF) {
 						read = bis.read();
-						if (0x80 <= read && read <= 0xBF) 
+						if (0x80 <= read && read <= 0xBF)
 							continue;
 						else {
 							charset = "GBK";
