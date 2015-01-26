@@ -241,17 +241,60 @@
 	public void loadFFmpegLibs(String libPath,String libName)
 
 	/**
+	 * 预解码方式：一次性解码完所有字幕。优点：取字幕时效率高；缺点：打开字幕时等待时间可能较长（字幕越多时间越长）
 	 * open subtitle file
 	 * @param filePath
-	 * @param index
+	 * @param index , subtiltle_index : The number of subtitle.
 	 * @return <0 then failed
 	 */
-    public native int  openSubtitleFileInJNI(String filePath,int index);
+    public int openSubtitleFile(String filePath,int index, int subtiltle_index);
+    
+    /**
+	 * 预解码方式：一次性解码完所有字幕。优点：取字幕时效率高；缺点：打开字幕时等待时间可能较长（字幕越多时间越长）
+	 * @param filePath
+	 * @param index
+	 * @return
+	 */
+	public int openSubtitleFile(String filePath, int index);
+    
+
+	/**
+	 * 按需解码方式：到相应的时间点时再解码相应的字幕。优点：打开较快；缺点：获取字幕效率略低
+	 * @param filePath
+	 * @param index
+	 * subtiltle_index : The number of subtitle.
+	 * @return
+	 */
+	public int openSubtitleFile_2(String filePath, int index,
+			int subtiltle_index);
+
+	/**
+	 * 按需解码方式：到相应的时间点时再解码相应的字幕。优点：打开较快；缺点：获取字幕效率略低
+	 * @param filePath
+	 * @param index
+	 * @return
+	 */
+	public int openSubtitleFile_2(String filePath, int index) ;
 
     /**
      * close subtitle file
      */
     public native void closeSubtitle();
+    
+    /**
+	 * close subtitle file
+	 */
+	public native void closeSubtitle(int subtiltle_index);
+    
+    /**
+	 * close subtitle file
+	 */
+	public void closeSubtitle2();
+    
+	/**
+	 * close subtitle file
+	 */
+	public void closeSubtitle2(int subtiltle_index);
     
     /**
      * 根据时间获取字幕内容
@@ -260,7 +303,34 @@
      */
     public native String  getSubtitleByTime(int time);
     
+    /**
+	 * 根据时间获取字幕内容
+	 * 
+	 * @param time
+	 * 单位：毫秒
+	 * @return
+	 */
+	public native String getSubtitleByTime(int time, int subtiltle_index);
     
+	/**
+	 * 根据时间获取字幕内容
+	 * 
+	 * @param time
+	 * @return
+	 */
+	public String getSubtitleByTime_2(int time)    
+    
+    /**
+	 * 根据时间获取字幕内容
+	 * @param time
+	 * 单位：毫秒
+	 * @param subtiltle_index
+	 * @param time_diff
+	 * @return
+	 */
+	public native String getSubtitleByTime2(int time, int subtiltle_index, int time_diff);
+    
+  
     /**
      * 字幕文件是否存在
      * @param file
