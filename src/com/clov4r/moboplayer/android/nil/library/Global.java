@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.ViewConfiguration;
@@ -208,6 +209,20 @@ public class Global {
 			} else {
 				return height;
 			}
+		}
+	}
+	
+	/**
+	 * ºÏ≤‚sdø® «∑Òø…”√
+	 * 
+	 * @return
+	 */
+	public static boolean isSDCardAvailability() {
+		if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

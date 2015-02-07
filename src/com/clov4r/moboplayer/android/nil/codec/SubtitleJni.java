@@ -60,7 +60,7 @@ public class SubtitleJni extends BaseJNILib {
 	public native int openSubtitleFileInJNI2(String filePath, int index,
 			int subtiltle_index);
 	/**
-	 * é¢„è§£ç æ–¹å¼ï¼šä¸€æ¬¡æ€§è§£ç å®Œæ‰€æœ‰å­—å¹•ã€‚ä¼˜ç‚¹ï¼šå–å­—å¹•æ—¶æ•ˆç‡é«˜ï¼›ç¼ºç‚¹ï¼šæ‰“å¼€å­—å¹•æ—¶ç­‰å¾…æ—¶é—´å¯èƒ½è¾ƒé•¿ï¼ˆå­—å¹•è¶Šå¤šæ—¶é—´è¶Šé•¿ï¼‰
+	 * Ô¤½âÂë·½Ê½£ºÒ»´ÎĞÔ½âÂëÍêËùÓĞ×ÖÄ»¡£ÓÅµã£ºÈ¡×ÖÄ»Ê±Ğ§ÂÊ¸ß£»È±µã£º´ò¿ª×ÖÄ»Ê±µÈ´ıÊ±¼ä¿ÉÄÜ½Ï³¤£¨×ÖÄ»Ô½¶àÊ±¼äÔ½³¤£©
 	 * @param filePath
 	 * @param index
 	 * @return
@@ -85,7 +85,7 @@ public class SubtitleJni extends BaseJNILib {
 		return openSubtitleFileInJNI(filePath, index, subtiltle_index);
 	}
 	/**
-	 * æŒ‰éœ€è§£ç æ–¹å¼ï¼šåˆ°ç›¸åº”çš„æ—¶é—´ç‚¹æ—¶å†è§£ç ç›¸åº”çš„å­—å¹•ã€‚ä¼˜ç‚¹ï¼šæ‰“å¼€è¾ƒå¿«ï¼›ç¼ºç‚¹ï¼šè·å–å­—å¹•æ•ˆç‡ç•¥ä½
+	 * °´Ğè½âÂë·½Ê½£ºµ½ÏàÓ¦µÄÊ±¼äµãÊ±ÔÙ½âÂëÏàÓ¦µÄ×ÖÄ»¡£ÓÅµã£º´ò¿ª½Ï¿ì£»È±µã£º»ñÈ¡×ÖÄ»Ğ§ÂÊÂÔµÍ
 	 * @param filePath
 	 * @param index
 	 * @return
@@ -112,7 +112,7 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * é¢„è§£ç æ–¹å¼ï¼šä¸€æ¬¡æ€§è§£ç å®Œæ‰€æœ‰å­—å¹•ã€‚ä¼˜ç‚¹ï¼šå–å­—å¹•æ—¶æ•ˆç‡é«˜ï¼›ç¼ºç‚¹ï¼šæ‰“å¼€å­—å¹•æ—¶ç­‰å¾…æ—¶é—´å¯èƒ½è¾ƒé•¿ï¼ˆå­—å¹•è¶Šå¤šæ—¶é—´è¶Šé•¿ï¼‰
+	 * Ô¤½âÂë·½Ê½£ºÒ»´ÎĞÔ½âÂëÍêËùÓĞ×ÖÄ»¡£ÓÅµã£ºÈ¡×ÖÄ»Ê±Ğ§ÂÊ¸ß£»È±µã£º´ò¿ª×ÖÄ»Ê±µÈ´ıÊ±¼ä¿ÉÄÜ½Ï³¤£¨×ÖÄ»Ô½¶àÊ±¼äÔ½³¤£©
 	 * @param filePath
 	 * @param index
 	 * @return
@@ -122,7 +122,7 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * æŒ‰éœ€è§£ç æ–¹å¼ï¼šåˆ°ç›¸åº”çš„æ—¶é—´ç‚¹æ—¶å†è§£ç ç›¸åº”çš„å­—å¹•ã€‚ä¼˜ç‚¹ï¼šæ‰“å¼€è¾ƒå¿«ï¼›ç¼ºç‚¹ï¼šè·å–å­—å¹•æ•ˆç‡ç•¥ä½
+	 * °´Ğè½âÂë·½Ê½£ºµ½ÏàÓ¦µÄÊ±¼äµãÊ±ÔÙ½âÂëÏàÓ¦µÄ×ÖÄ»¡£ÓÅµã£º´ò¿ª½Ï¿ì£»È±µã£º»ñÈ¡×ÖÄ»Ğ§ÂÊÂÔµÍ
 	 * @param filePath
 	 * @param index
 	 * @return
@@ -156,18 +156,18 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * æ ¹æ®æ—¶é—´è·å–å­—å¹•å†…å®¹
+	 * ¸ù¾İÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈİ
 	 * 
 	 * @param time
-	 * å•ä½ï¼šæ¯«ç§’
+	 * µ¥Î»£ººÁÃë
 	 * @return
 	 */
 	public native String getSubtitleByTime(int time, int subtiltle_index);
 
 	/**
-	 * æ ¹æ®æ—¶é—´è·å–å­—å¹•å†…å®¹
+	 * ¸ù¾İÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈİ
 	 * @param time
-	 * å•ä½ï¼šæ¯«ç§’
+	 * µ¥Î»£ººÁÃë
 	 * @param subtiltle_index
 	 * @param time_diff
 	 * @return
@@ -175,10 +175,10 @@ public class SubtitleJni extends BaseJNILib {
 	public native String getSubtitleByTime2(int time, int subtiltle_index, int time_diff);
 
 	/**
-	 * æ ¹æ®æ—¶é—´è·å–å­—å¹•å†…å®¹
+	 * ¸ù¾İÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈİ
 	 * 
 	 * @param time
-	 * å•ä½ï¼šæ¯«ç§’
+	 * µ¥Î»£ººÁÃë
 	 * @return
 	 */
 	public String getSubtitleByTime(int time) {
@@ -186,13 +186,13 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * æ ¹æ®æ—¶é—´è·å–å­—å¹•å†…å®¹
+	 * ¸ù¾İÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈİ
 	 * 
 	 * @param time
 	 * @return
 	 */
 	public String getSubtitleByTime_2(int time) {
-		return getSubtitleByTime2(time, 0, 100);
+		return getSubtitleByTime2(time, 0, 200);
 	}
 
 	public native int getSubtitleType(int subtiltle_index);
@@ -210,10 +210,10 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * å­—å¹•æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+	 * ×ÖÄ»ÎÄ¼şÊÇ·ñ´æÔÚ
 	 * 
 	 * @param file
-	 * @return å­—å¹•ä¸ªæ•° åªè¦>0å°±è¡¨ç¤ºå­˜åœ¨
+	 * @return ×ÖÄ»¸öÊı Ö»Òª>0¾Í±íÊ¾´æÔÚ
 	 */
 	public native int isSubtitleExits(String file);
 

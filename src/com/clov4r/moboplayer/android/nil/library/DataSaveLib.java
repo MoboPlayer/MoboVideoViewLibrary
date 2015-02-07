@@ -3,14 +3,11 @@ package com.clov4r.moboplayer.android.nil.library;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Environment;
 
 /** 序列化数据 **/
 public class DataSaveLib {
@@ -18,40 +15,46 @@ public class DataSaveLib {
 	public static final String flag_serializable_data = "flag_serializable_data";
 	/** 保存解码方式列表 **/
 	public static final String name_of_format_list = "name_of_format_list";
+	/** 保存Streaming下载信息 **/
+	public static final String name_of_streaming_download_info = "name_of_streaming_download_info";
 	String saveDirPath = "";
 	String saveFilePath = "";
 	File saveDir = null;
 	Context mContext = null;
 
 	public DataSaveLib(Context context, String fileName) {
-		saveDirPath = Global.dataSavePath + flag_serializable_data
+		initPath(context, fileName, false);
+	}
+
+	public DataSaveLib(Context context, String fileName,
+			boolean saveInnerStorage) {
+		initPath(context, fileName, saveInnerStorage);
+	}
+
+	private void initPath(Context context, String fileName, boolean isInner) {
+		mContext = context;
+		String rootPath = null;
+		if (isInner) {
+			rootPath = context.getFilesDir().getAbsolutePath();// context.getExternalFilesDir(null).toString();
+		} else {
+			rootPath = getDataSavePath();
+		}
+		saveDirPath = rootPath + File.separator + flag_serializable_data
 				+ File.separator;
 		saveFilePath = saveDirPath + fileName;
 		saveDir = new File(saveDirPath);
+		boolean created = false;
 		if (!saveDir.exists())
-			saveDir.mkdirs();
+			created = saveDir.mkdirs();
+	}
 
-		File file = new File(saveFilePath);
-		try {
-			if (!file.exists())
-				file.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			try {
-				File tempFile1 = new File(Global.rootPath);
-				if (!tempFile1.exists())
-					tempFile1.mkdir();
-				File tempFile2 = new File(Global.dataSavePath);
-				if (!tempFile2.exists())
-					tempFile2.mkdir();
-				File tempFile3 = new File(saveDirPath);
-				if (!tempFile3.exists())
-					tempFile3.mkdir();
-			} catch (Exception ee) {
-				ee.printStackTrace();
-			}
-		}
+	String getPackageName() {
+		return mContext.getPackageName();
+	}
+
+	String getDataSavePath() {
+		return Environment.getExternalStorageDirectory().getAbsoluteFile()
+				+ File.separator + getPackageName();
 	}
 
 	/**
