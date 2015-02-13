@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import com.clov4r.moboplayer.android.nil.library.DataSaveLib;
 
@@ -45,7 +46,7 @@ public class StreamingDownloadManager {
 	public StreamingDownloadManager(Context con) {
 		mContext = con;
 		mDataSaveLib = new DataSaveLib(con,
-				DataSaveLib.name_of_streaming_download_info, true);
+				DataSaveLib.name_of_streaming_download_info, false);
 		dataMap = (HashMap) mDataSaveLib.readData();
 		if (dataMap == null)
 			dataMap = new HashMap<Integer, StreamingDownloadData>();
@@ -92,7 +93,11 @@ public class StreamingDownloadManager {
 		if (libMap.containsKey(key)) {
 			tmpLib = libMap.get(key);
 		} else {
-			StreamingDownloadData downloadData = new StreamingDownloadData();
+			StreamingDownloadData downloadData = null;
+			if (dataMap.containsKey(key))
+				downloadData = dataMap.get(key);
+			else
+				downloadData = new StreamingDownloadData();
 			downloadData.streamingUrl = streamingUrl;
 			downloadData.fileSavePath = fileSavePath;
 			downloadData.id = key;
@@ -247,7 +252,7 @@ public class StreamingDownloadManager {
 		public void onDownloadFailed(StreamingDownloadData data);
 	}
 
-	public class StreamingDownloadData implements Serializable{
+	public static class StreamingDownloadData implements Serializable {
 		/**
 		 * 
 		 */
@@ -270,19 +275,22 @@ public class StreamingDownloadManager {
 		// public boolean isFinished;
 		// public boolean isDownloadFailed;
 		public int status = download_status_stoped;
+		public String failedMsg = null;
 		/** 视频中每个stream与pts的对应关系 **/
-		// SparseArray<Long> stm_index_pts_map = new SparseArray<Long>();
-		//
-		// Long[] getPtsArray() {
-		// if (stm_index_pts_map.size() == 0)
-		// return null;
-		// else {
-		// Long[] resArray = new Long[stm_index_pts_map.size()];
-		// for (int i = 0; i < stm_index_pts_map.size(); i++)
-		// resArray[i] = stm_index_pts_map.get(i);
-		// return resArray;
-		// }
-		// }
+		HashMap<Integer,Long> stm_index_pts_map = new HashMap<Integer,Long>();
+
+		long[] getPtsArray() {
+//			stm_index_pts_map.put(0, 7040l);
+//			stm_index_pts_map.put(1, 6919l);
+			if (stm_index_pts_map.size() == 0)
+				return null;
+			else {
+				long[] resArray = new long[stm_index_pts_map.size()];
+				for (int i = 0; i < stm_index_pts_map.size(); i++)
+					resArray[i] = stm_index_pts_map.get(i);
+				return resArray;
+			}
+		}
 	}
 
 }

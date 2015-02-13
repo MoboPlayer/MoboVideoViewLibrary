@@ -60,12 +60,10 @@ public class StreamingDownloadLib {
 		nativeStopDownload();
 	}
 
-	public void onDownloadProgressChanged( long position,// int
-																// streamIndex,
-			// long pts,
-			int currentTime) {
+	public void onDownloadProgressChanged(long position, int currentTime,
+			int streamIndex, long pts) {
 		downloadData.finishSize = position;
-		// downloadData.stm_index_pts_map.put(streamIndex, pts);
+		downloadData.stm_index_pts_map.put(streamIndex, pts);
 		downloadData.currentTime = currentTime;
 		if (downloadData.duration == 0)
 			downloadData.duration = nativeGetDuration();
@@ -74,14 +72,15 @@ public class StreamingDownloadLib {
 					currentTime);
 	}
 
-	public void onDownloadFinished(int id) {
+	public void onDownloadFinished() {
 		downloadData.status = StreamingDownloadData.download_status_finished;
 		if (mMoboDownloadListener != null)
 			mMoboDownloadListener.onDownloadFinished(downloadData);
 	}
 
-	public void onDownloadFailed(int id) {
+	public void onDownloadFailed(String msg) {
 		downloadData.status = StreamingDownloadData.download_status_failed;
+		downloadData.failedMsg = msg;
 		if (mMoboDownloadListener != null)
 			mMoboDownloadListener.onDownloadFailed(downloadData);
 	}
@@ -124,7 +123,10 @@ public class StreamingDownloadLib {
 	}
 
 	public native void nativeStartDownload(String streamingUrl,
-			String fileSavePath, long finishedSize);// Long[] ptsArray
+			String fileSavePath, long[] ptsArray, long finishedSize); // int
+																		// currentTime
+
+	public native void nativeStartDownload3(int intArray[]);
 
 	public native void nativePauseDownload();
 
@@ -151,7 +153,8 @@ public class StreamingDownloadLib {
 			mStreamingDownloadData.status = StreamingDownloadData.download_status_started;
 			nativeStartDownload(mStreamingDownloadData.streamingUrl,
 					mStreamingDownloadData.fileSavePath,
-					mStreamingDownloadData.finishSize);// mStreamingDownloadData.getPtsArray()
+					mStreamingDownloadData.getPtsArray(),
+					mStreamingDownloadData.finishSize);// mStreamingDownloadData.finishSize
 			return null;
 		}
 
