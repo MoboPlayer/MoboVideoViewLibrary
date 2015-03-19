@@ -266,9 +266,9 @@ public class StreamingDownloadManager {
 		public String streamingUrl;
 		public String fileSavePath;
 		// public int progress;
-		/** ÒÑ¾­ÏÂÔØµÄ×Ö½ÚÊı **/
+		/** å·²ç»ä¸‹è½½çš„å­—èŠ‚æ•° **/
 		public long finishSize;
-		/** µ±Ç°ÏÂÔØµ½µÄÊ±¼ä £¬µ¥Î»Ãë **/
+		/** å½“å‰ä¸‹è½½åˆ°çš„æ—¶é—´ ï¼Œå•ä½ç§’ **/
 		public int currentTime;
 		public int startTime = -1;
 		public int duration = 0;
@@ -276,18 +276,19 @@ public class StreamingDownloadManager {
 		// public boolean isDownloadFailed;
 		public int status = download_status_stoped;
 		public String failedMsg = null;
-		/** ÊÓÆµÖĞÃ¿¸östreamÓëptsµÄ¶ÔÓ¦¹ØÏµ **/
-		HashMap<Integer,Long> stm_index_pts_map = new HashMap<Integer,Long>();
+		/** è§†é¢‘ä¸­æ¯ä¸ªstreamä¸ptsçš„å¯¹åº”å…³ç³» **/
+		HashMap<Integer, Long> stm_index_pts_map = new HashMap<Integer, Long>();
 
 		long[] getPtsArray() {
-//			stm_index_pts_map.put(0, 7040l);
-//			stm_index_pts_map.put(1, 6919l);
+			// stm_index_pts_map.put(0, 7040l);
+			// stm_index_pts_map.put(1, 6919l);
 			if (stm_index_pts_map.size() == 0)
 				return null;
 			else {
 				long[] resArray = new long[stm_index_pts_map.size()];
 				for (int i = 0; i < stm_index_pts_map.size(); i++)
-					resArray[i] = stm_index_pts_map.get(i);
+					if (stm_index_pts_map.containsKey(i))
+						resArray[i] = stm_index_pts_map.get(i);
 				return resArray;
 			}
 		}
