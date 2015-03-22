@@ -100,6 +100,7 @@ public class StreamingDownloadManager {
 				downloadData = new StreamingDownloadData();
 			downloadData.streamingUrl = streamingUrl;
 			downloadData.fileSavePath = fileSavePath;
+			downloadData.packetFile = fileSavePath+".pkts";
 			downloadData.id = key;
 			dataMap.put(key, downloadData);
 
@@ -265,6 +266,7 @@ public class StreamingDownloadManager {
 		public int id;
 		public String streamingUrl;
 		public String fileSavePath;
+		public String packetFile;
 		// public int progress;
 		/** 已经下载的字节数 **/
 		public long finishSize;
