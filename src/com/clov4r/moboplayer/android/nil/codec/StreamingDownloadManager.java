@@ -168,6 +168,8 @@ public class StreamingDownloadManager {
 			if (deleteDownloadedFile) {
 				File file = new File(tmpLib.downloadData.fileSavePath);
 				file.deleteOnExit();
+				File pkt_file = new File(tmpLib.downloadData.packetFile);
+				pkt_file.deleteOnExit();
 			}
 		}
 	}

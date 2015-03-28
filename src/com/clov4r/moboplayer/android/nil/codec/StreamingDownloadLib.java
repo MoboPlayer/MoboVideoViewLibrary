@@ -77,7 +77,7 @@ public class StreamingDownloadLib {
 
 	public void onRewriteFinished() {
 		File file = new File(downloadData.fileSavePath + ".tmp");
-		boolean deleted=file.delete();
+		boolean deleted = file.delete();
 	}
 
 	public void onDownloadFinished() {
@@ -131,7 +131,8 @@ public class StreamingDownloadLib {
 	}
 
 	public native int nativeStartDownload(String streamingUrl,
-			String fileSavePath, String packetFile); //, long[] ptsArray, long finishedSize
+			String fileSavePath, String packetFile, long[] ptsArray,
+			long finishedSize);
 
 	public native void nativeStartDownload3(int intArray[]);
 
@@ -164,13 +165,13 @@ public class StreamingDownloadLib {
 							+ ".tmp"));
 				}
 			}
-//			nativePauseDownload();
+			// nativePauseDownload();
 			mStreamingDownloadData.status = StreamingDownloadData.download_status_started;
 			nativeStartDownload(mStreamingDownloadData.streamingUrl,
 					mStreamingDownloadData.fileSavePath,
-					mStreamingDownloadData.packetFile);//,
-//					mStreamingDownloadData.getPtsArray(),
-//					mStreamingDownloadData.finishSize);
+					mStreamingDownloadData.packetFile,
+					mStreamingDownloadData.getPtsArray(),
+					mStreamingDownloadData.finishSize);
 			return null;
 		}
 
