@@ -47,7 +47,7 @@ public class StreamingDownloadManager {
 		mContext = con;
 		mDataSaveLib = new DataSaveLib(con,
 				DataSaveLib.name_of_streaming_download_info, false);
-		dataMap = (HashMap) mDataSaveLib.readData();
+//		dataMap = (HashMap) mDataSaveLib.readData();
 		if (dataMap == null)
 			dataMap = new HashMap<Integer, StreamingDownloadData>();
 		libMap = new HashMap<Integer, StreamingDownloadLib>();
@@ -87,7 +87,8 @@ public class StreamingDownloadManager {
 	 * @param fileSavePath
 	 * @return
 	 */
-	public int startDownload(String streamingUrl, String fileSavePath) {
+	public int startDownload(String streamingUrl, String fileSavePath,
+			int timeToDownload) {
 		int key = getKeyOf(streamingUrl, fileSavePath);
 		StreamingDownloadLib tmpLib = null;
 		if (libMap.containsKey(key)) {
@@ -100,7 +101,8 @@ public class StreamingDownloadManager {
 				downloadData = new StreamingDownloadData();
 			downloadData.streamingUrl = streamingUrl;
 			downloadData.fileSavePath = fileSavePath;
-			downloadData.packetFile = fileSavePath+".pkts";
+			downloadData.packetFile = fileSavePath + ".pkts";
+			downloadData.timeStartToDownload = timeToDownload;
 			downloadData.id = key;
 			dataMap.put(key, downloadData);
 
@@ -275,6 +277,8 @@ public class StreamingDownloadManager {
 		/** 当前下载到的时间 ，单位秒 **/
 		public int currentTime;
 		public int startTime = -1;
+		/** 开始下载的播放时间 **/
+		public int timeStartToDownload = 0;
 		public int duration = 0;
 		// public boolean isFinished;
 		// public boolean isDownloadFailed;
