@@ -47,7 +47,7 @@ public class StreamingDownloadManager {
 		mContext = con;
 		mDataSaveLib = new DataSaveLib(con,
 				DataSaveLib.name_of_streaming_download_info, false);
-//		dataMap = (HashMap) mDataSaveLib.readData();
+		// dataMap = (HashMap) mDataSaveLib.readData();
 		if (dataMap == null)
 			dataMap = new HashMap<Integer, StreamingDownloadData>();
 		libMap = new HashMap<Integer, StreamingDownloadLib>();
@@ -68,6 +68,8 @@ public class StreamingDownloadManager {
 	}
 
 	public void stopAll() {
+		if (libMap == null)
+			return;
 		Iterator<Integer> iterator = libMap.keySet().iterator();
 		while (iterator.hasNext()) {
 			stopDownload(iterator.next());

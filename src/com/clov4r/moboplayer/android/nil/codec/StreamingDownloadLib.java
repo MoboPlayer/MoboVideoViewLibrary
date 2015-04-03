@@ -132,7 +132,7 @@ public class StreamingDownloadLib {
 
 	public native int nativeStartDownload(String streamingUrl,
 			String fileSavePath, String packetFile, long[] ptsArray,
-			long finishedSize,int timeToDownload);
+			long finishedSize, int timeToDownload);
 
 	public native void nativeStartDownload3(int intArray[]);
 
@@ -165,13 +165,13 @@ public class StreamingDownloadLib {
 							+ ".tmp"));
 				}
 			}
-			// nativePauseDownload();
 			mStreamingDownloadData.status = StreamingDownloadData.download_status_started;
 			nativeStartDownload(mStreamingDownloadData.streamingUrl,
 					mStreamingDownloadData.fileSavePath,
 					mStreamingDownloadData.packetFile,
 					mStreamingDownloadData.getPtsArray(),
-					mStreamingDownloadData.finishSize,mStreamingDownloadData.timeStartToDownload);
+					mStreamingDownloadData.finishSize,
+					mStreamingDownloadData.timeStartToDownload);
 			return null;
 		}
 
