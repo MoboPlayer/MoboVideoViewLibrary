@@ -87,7 +87,7 @@ public class StreamingDownloadManager {
 	 * @param fileSavePath
 	 * @return
 	 */
-	public int startDownload(String streamingUrl, String fileSavePath) {
+	public int startDownload(String streamingUrl, String fileSavePath ,int startTime) {
 		int key = getKeyOf(streamingUrl, fileSavePath);
 		StreamingDownloadLib tmpLib = null;
 		if (libMap.containsKey(key)) {
@@ -101,6 +101,7 @@ public class StreamingDownloadManager {
 			downloadData.streamingUrl = streamingUrl;
 			downloadData.fileSavePath = fileSavePath;
 			downloadData.packetFile = fileSavePath+".pkts";
+			downloadData.startTime = startTime;
 			downloadData.id = key;
 			dataMap.put(key, downloadData);
 
