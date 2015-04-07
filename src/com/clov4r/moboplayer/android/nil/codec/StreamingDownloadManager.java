@@ -269,6 +269,10 @@ public class StreamingDownloadManager {
 		public static final int download_status_started = 1;
 		public static final int download_status_finished = 2;
 		public static final int download_status_failed = 3;
+
+		public static final int DOWNLOAD_DEFAULT = 0;
+		public static final int DOWNLOAD_PACKET_TEMP = 1;
+
 		public int id;
 		public String streamingUrl;
 		public String fileSavePath;

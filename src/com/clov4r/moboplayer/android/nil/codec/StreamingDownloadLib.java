@@ -64,9 +64,10 @@ public class StreamingDownloadLib {
 	}
 
 	public void onDownloadProgressChanged(long position, int currentTime,
-			int streamIndex, long pts) {
+			int streamIndex, long pts, int downloadType) {
 		downloadData.finishSize = position;
-		downloadData.stm_index_pts_map.put(streamIndex, pts);
+		if (StreamingDownloadData.DOWNLOAD_DEFAULT == downloadType)
+			downloadData.stm_index_pts_map.put(streamIndex, pts);
 		downloadData.currentTime = currentTime;
 		if (downloadData.duration == 0)
 			downloadData.duration = nativeGetDuration();
