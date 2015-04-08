@@ -64,11 +64,13 @@ public class StreamingDownloadLib {
 	}
 
 	public void onDownloadProgressChanged(long position, int currentTime,
-			int streamIndex, long pts, int downloadType) {
-		downloadData.finishSize = position;
-		if (StreamingDownloadData.DOWNLOAD_DEFAULT == downloadType)
-			downloadData.stm_index_pts_map.put(streamIndex, pts);
+			long dts, int downloadType) {// int
+											// streamIndex,
 		downloadData.currentTime = currentTime;
+		if (downloadData.last_video_dts < dts)
+			downloadData.last_video_dts = dts;
+		if (downloadData.finishSize < position)
+			downloadData.finishSize = position;
 		if (downloadData.duration == 0)
 			downloadData.duration = nativeGetDuration();
 		if (mMoboDownloadListener != null)
@@ -127,13 +129,18 @@ public class StreamingDownloadLib {
 	 */
 	public int getStartDownloadedTime() {
 		if (downloadData.startTime == -1)
-			downloadData.startTime = nativeGetDownloadedLen();
+			downloadData.startTime = nativeGetStartDownloadedTime();
 		return downloadData.startTime;
 	}
 
+	public void setStartDownloadTime(int startBufferTime) {
+		downloadData.startTime = startBufferTime;
+	}
+
 	public native int nativeStartDownload(String streamingUrl,
-			String fileSavePath, String packetFile, long[] ptsArray,
-			long finishedSize, int timeToDownload);
+			String fileSavePath, String packetFile, long dts, long finishedSize);// ,
+																					// int
+																					// timeToDownload
 
 	public native void nativeStartDownload3(int intArray[]);
 
@@ -145,7 +152,7 @@ public class StreamingDownloadLib {
 
 	public native int nativeGetDuration();
 
-	public native int nativeGetDownloadedLen();
+	// public native int nativeGetDownloadedLen();
 
 	public native int nativeGetStartDownloadedTime();
 
@@ -170,9 +177,8 @@ public class StreamingDownloadLib {
 			nativeStartDownload(mStreamingDownloadData.streamingUrl,
 					mStreamingDownloadData.fileSavePath,
 					mStreamingDownloadData.packetFile,
-					mStreamingDownloadData.getPtsArray(),
-					mStreamingDownloadData.finishSize,
-					mStreamingDownloadData.timeStartToDownload);
+					mStreamingDownloadData.last_video_dts,
+					mStreamingDownloadData.finishSize);// mStreamingDownloadData.timeStartToDownload
 			return null;
 		}
 
