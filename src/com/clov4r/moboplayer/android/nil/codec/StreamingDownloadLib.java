@@ -60,7 +60,12 @@ public class StreamingDownloadLib {
 
 	public void stopDownload() {
 		downloadData.status = StreamingDownloadData.download_status_stoped;
+		stopTempBuffer();
 		nativeStopDownload();
+	}
+
+	public void stopTempBuffer() {
+		stopTempDownload();
 	}
 
 	public void onDownloadProgressChanged(long position, int currentTime,
@@ -155,6 +160,8 @@ public class StreamingDownloadLib {
 	// public native int nativeGetDownloadedLen();
 
 	public native int nativeGetStartDownloadedTime();
+
+	public native void stopTempDownload();
 
 	private class DownloadLib extends AsyncTask<Void, Integer, Void> {
 		StreamingDownloadData mStreamingDownloadData = null;

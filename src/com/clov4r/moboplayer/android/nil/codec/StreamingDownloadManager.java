@@ -47,7 +47,7 @@ public class StreamingDownloadManager {
 		mContext = con;
 		mDataSaveLib = new DataSaveLib(con,
 				DataSaveLib.name_of_streaming_download_info, false);
-		// dataMap = (HashMap) mDataSaveLib.readData();
+		dataMap = (HashMap) mDataSaveLib.readData();
 		if (dataMap == null)
 			dataMap = new HashMap<Integer, StreamingDownloadData>();
 		libMap = new HashMap<Integer, StreamingDownloadLib>();
@@ -158,6 +158,14 @@ public class StreamingDownloadManager {
 		}
 	}
 
+	public void stopTempBuffer(int downloadId) {
+		if (libMap.containsKey(downloadId)) {
+			StreamingDownloadLib tmpLib = libMap.get(downloadId);
+			tmpLib.stopTempBuffer();
+		}
+
+	}
+
 	public void removeDownload(int downloadId, boolean deleteDownloadedFile) {
 		if (libMap.containsKey(downloadId)) {
 			StreamingDownloadLib tmpLib = libMap.get(downloadId);
@@ -177,7 +185,7 @@ public class StreamingDownloadManager {
 			}
 		}
 	}
-	
+
 	private int getKeyOf(String url, String path) {
 		return (url + path).hashCode();
 	}
@@ -283,7 +291,7 @@ public class StreamingDownloadManager {
 		/** 当前下载到的时间 ，单位秒 **/
 		public int currentTime;
 		public int startTime = -1;
-		/** 开始下载的播放时间 ----暂时不用了，因为跳转直接在底层做了**/
+		/** 开始下载的播放时间 ----暂时不用了，因为跳转直接在底层做了 **/
 		public int timeStartToDownload = 0;
 		public int duration = 0;
 		// public boolean isFinished;
@@ -291,22 +299,23 @@ public class StreamingDownloadManager {
 		public int status = download_status_stoped;
 		public String failedMsg = null;
 		public long last_video_dts;
-//		/** 视频中每个stream与pts的对应关系 **/
-//		HashMap<Integer, Long> stm_index_pts_map = new HashMap<Integer, Long>();
-//
-//		long[] getPtsArray() {
-//			// stm_index_pts_map.put(0, 7040l);
-//			// stm_index_pts_map.put(1, 6919l);
-//			if (stm_index_pts_map.size() == 0)
-//				return null;
-//			else {
-//				long[] resArray = new long[stm_index_pts_map.size()];
-//				for (int i = 0; i < stm_index_pts_map.size(); i++)
-//					if (stm_index_pts_map.containsKey(i))
-//						resArray[i] = stm_index_pts_map.get(i);
-//				return resArray;
-//			}
-//		}
+		// /** 视频中每个stream与pts的对应关系 **/
+		// HashMap<Integer, Long> stm_index_pts_map = new HashMap<Integer,
+		// Long>();
+		//
+		// long[] getPtsArray() {
+		// // stm_index_pts_map.put(0, 7040l);
+		// // stm_index_pts_map.put(1, 6919l);
+		// if (stm_index_pts_map.size() == 0)
+		// return null;
+		// else {
+		// long[] resArray = new long[stm_index_pts_map.size()];
+		// for (int i = 0; i < stm_index_pts_map.size(); i++)
+		// if (stm_index_pts_map.containsKey(i))
+		// resArray[i] = stm_index_pts_map.get(i);
+		// return resArray;
+		// }
+		// }
 	}
 
 }
