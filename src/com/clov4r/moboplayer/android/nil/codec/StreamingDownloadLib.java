@@ -173,6 +173,11 @@ public class StreamingDownloadLib {
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
+			if (mStreamingDownloadData.currentTime > 0
+					&& mStreamingDownloadData.currentTime == mStreamingDownloadData.duration) {
+				onDownloadFinished();
+				return null;
+			}
 			if (mStreamingDownloadData.finishSize > 0) {
 				File file = new File(mStreamingDownloadData.fileSavePath);
 				if (file.exists()) {
@@ -181,6 +186,8 @@ public class StreamingDownloadLib {
 				}
 			}
 			mStreamingDownloadData.status = StreamingDownloadData.download_status_started;
+			if (mStreamingDownloadData.currentTime > 0)
+				mStreamingDownloadData.startTime = mStreamingDownloadData.currentTime;
 			nativeStartDownload(mStreamingDownloadData.streamingUrl,
 					mStreamingDownloadData.fileSavePath,
 					mStreamingDownloadData.packetFile,
