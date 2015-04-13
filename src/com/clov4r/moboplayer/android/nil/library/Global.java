@@ -55,6 +55,20 @@ public class Global {
 		return null;
 	}
 
+	public static String getDownloadPath(Context con){
+		if(isSDCardAvailability()){
+			String packageName = con.getPackageName();
+			packageName = packageName.replace(".", "_");
+			String saveDir = Environment.getExternalStorageDirectory()
+					+ File.separator + "mbo_buffer" + File.separator + packageName;
+			File file = new File(saveDir);
+			if (!file.exists())
+				file.mkdirs();
+			return saveDir;
+		}
+		return null;
+	}
+	
 	/**
 	 * 获取文件格式
 	 * 

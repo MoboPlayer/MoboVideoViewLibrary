@@ -37,7 +37,7 @@ public class DataSaveLib {
 		if (isInner) {
 			rootPath = context.getFilesDir().getAbsolutePath();// context.getExternalFilesDir(null).toString();
 		} else {
-			rootPath = getDataSavePath();
+			rootPath = Global.getDownloadPath(mContext);//getDataSavePath();
 		}
 		saveDirPath = rootPath + File.separator + flag_serializable_data
 				+ File.separator;
@@ -52,10 +52,10 @@ public class DataSaveLib {
 		return mContext.getPackageName();
 	}
 
-	String getDataSavePath() {
-		return Environment.getExternalStorageDirectory().getAbsoluteFile()
-				+ File.separator + getPackageName();
-	}
+//	String getDataSavePath() {
+//		return Environment.getExternalStorageDirectory().getAbsoluteFile()
+//				+ File.separator + getPackageName();
+//	}
 
 	/**
 	 * 将数据序列化到本地
