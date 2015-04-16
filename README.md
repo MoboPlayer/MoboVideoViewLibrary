@@ -78,9 +78,6 @@
         amount要生成的图片张数
         注：截图或生成缩略图可通过ScreenShotLib类来完成，里边封装了压缩和二次保存图片的方法
 
-    public void setIsLive(boolean live)
-    设置是否为直播类型流媒体
-
     public void setBaseHandler(Handler handler)
     设置handler，openSA方法解析出字幕或视频文件内置字幕流后用以回调，相应message.what==111
 
@@ -121,11 +118,24 @@
     关闭对应的字幕或音频
       参数解析详见openSA
 
+    public void setIsLive(boolean live)
+    设置是否为直播类型流媒体
+
     public void setBufferedTime(int time)
     设置缓冲时间，单位秒。
 
-    public int getBufferStatus()
-    返回-1 没有在缓冲；返回0-100 缓冲的百分比（根据设置的BufferTime）。
+    public int getBufferedTime()
+    获取当前缓冲到的时间。单位：秒
+
+    public void setBufferListener(BufferListener listener)
+    设置缓冲回调接口
+
+    public void stopBuffering()
+    停止缓冲(下载)
+
+    public void deleteDownloadTask(boolean deleteFile)
+    删除待播放流媒体地址对应的下载信息
+      deleteFile 是否删除下载的视频文件
 
     PlayerActivityBase
     播放器界面的基类，封装了一些播放器常用的常量、变量和方法
