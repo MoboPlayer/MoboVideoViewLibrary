@@ -136,8 +136,9 @@
     public void deleteDownloadTask(boolean deleteFile)
     删除待播放流媒体地址对应的下载信息
       deleteFile 是否删除下载的视频文件
+```
 
-    PlayerActivityBase
+##PlayerActivityBase
     播放器界面的基类，封装了一些播放器常用的常量、变量和方法
 ```
 
@@ -349,6 +350,30 @@
     public native int isSubtitleExits(String file);
 ```
 
+#ScreenShotLibJni
+##ScreenShotLibJni 截图相关接口
 
+##方法如下
+```java
+        public static ScreenShotLibJni getInstance()
+          获取ScreenShotLibJni的实例
+
+        public Bitmap getIDRFrameThumbnail(String videoPath,
+			String thumbnailSavePath, int width, int height) 
+        获取首个IDR帧的截图
+            videoPath            视频路径
+            thumbnailSavePath    截图保存路径
+            width                截图的宽
+            height               截图的高
+
+        public Bitmap getScreenShot(String videoPath, String thumbnailSavePath,
+			int position, int width, int height) 
+        获取截图
+            videoPath            视频路径
+            thumbnailSavePath    截图保存路径
+            position             截图的时间、单位秒
+            width                截图的宽
+            height               截图的高
+```
 
 
