@@ -143,7 +143,7 @@ public class StreamingDownloadLib {
 	}
 
 	public native int nativeStartDownload(String streamingUrl,
-			String fileSavePath, String packetFile, long dts, long finishedSize);// ,
+			String fileSavePath, String packetFile, long dts, long finishedSize,int isLive);// ,
 																					// int
 																					// timeToDownload
 
@@ -185,6 +185,8 @@ public class StreamingDownloadLib {
 							+ ".tmp"));
 				}
 			}
+			if (mStreamingDownloadData.failedMsg != null)
+				mStreamingDownloadData.failedMsg = null;
 			mStreamingDownloadData.status = StreamingDownloadData.download_status_started;
 			if (mStreamingDownloadData.currentTime > 0)
 				mStreamingDownloadData.startTime = mStreamingDownloadData.currentTime;
@@ -192,7 +194,7 @@ public class StreamingDownloadLib {
 					mStreamingDownloadData.fileSavePath,
 					mStreamingDownloadData.packetFile,
 					mStreamingDownloadData.last_video_dts,
-					mStreamingDownloadData.finishSize);// mStreamingDownloadData.timeStartToDownload
+					mStreamingDownloadData.finishSize,mStreamingDownloadData.isLive?1:0);// mStreamingDownloadData.timeStartToDownload
 			return null;
 		}
 

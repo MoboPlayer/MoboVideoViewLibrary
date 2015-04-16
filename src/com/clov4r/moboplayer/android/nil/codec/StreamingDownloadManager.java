@@ -90,7 +90,7 @@ public class StreamingDownloadManager {
 	 * @return
 	 */
 	public int startDownload(String streamingUrl, String fileSavePath,
-			int timeToDownload) {
+			int timeToDownload,boolean isLive) {
 		int key = getKeyOf(streamingUrl, fileSavePath);
 		StreamingDownloadLib tmpLib = null;
 		if (libMap.containsKey(key)) {
@@ -182,6 +182,8 @@ public class StreamingDownloadManager {
 				file.deleteOnExit();
 				File pkt_file = new File(tmpLib.downloadData.packetFile);
 				pkt_file.deleteOnExit();
+				File tmp_pkt_file = new File(tmpLib.downloadData.packetFile+".tmp");
+				tmp_pkt_file.deleteOnExit();
 			}
 		}
 	}
@@ -299,6 +301,8 @@ public class StreamingDownloadManager {
 		public int status = download_status_stoped;
 		public String failedMsg = null;
 		public long last_video_dts;
+		/**是否为直播**/
+		public boolean isLive;
 		// /** 视频中每个stream与pts的对应关系 **/
 		// HashMap<Integer, Long> stm_index_pts_map = new HashMap<Integer,
 		// Long>();
