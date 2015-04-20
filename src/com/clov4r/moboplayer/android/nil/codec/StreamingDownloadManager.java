@@ -153,7 +153,7 @@ public class StreamingDownloadManager {
 		if (libMap.containsKey(downloadId)) {
 			StreamingDownloadLib tmpLib = libMap.get(downloadId);
 			tmpLib.stopDownload();
-
+			libMap.remove(downloadId);
 			saveDownloadInfo();
 		}
 	}
