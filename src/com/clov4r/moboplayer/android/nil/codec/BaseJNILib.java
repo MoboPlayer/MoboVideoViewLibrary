@@ -29,8 +29,12 @@ public class BaseJNILib {
      * /data/data/com.example.hellojni/lib/libhello-jni.so at
      * installation time by the package manager.
      */
-    static {
-        System.loadLibrary("mobo_jni_util");
+//    static {
+//        System.loadLibrary("mobo_jni_util");
+//    }
+    
+    public BaseJNILib(){
+    	System.loadLibrary("mobo_jni_util");
     }
     public native void loadFFmpeg(String libPath,String libName);
     public void loadFFmpegLibs(String libPath,String libName){

@@ -89,8 +89,36 @@ public class StreamingDownloadManager {
 	 * @param fileSavePath
 	 * @return
 	 */
+	public int startBuffer(String streamingUrl, String pktPath, int startPos) {
+		StreamingDownloadLib tmpLib = getDownloadLib(streamingUrl, null,
+				pktPath, 0, false);
+		// if (tmpLib.getDownloadStatus() ==
+		// StreamingDownloadData.download_status_stoped
+		// || tmpLib.getDownloadStatus() ==
+		// StreamingDownloadData.download_status_failed)
+		// tmpLib.startDownload();
+		// else if (tmpLib.getDownloadStatus() ==
+		// StreamingDownloadData.download_status_paused)
+		// tmpLib.resumeDownload();
+		tmpLib.startBuffer(startPos);
+		return tmpLib.downloadData.id;
+	}
+
 	public int startDownload(String streamingUrl, String fileSavePath,
-			int timeToDownload,boolean isLive) {
+			int timeToDownload, boolean isLive) {
+		StreamingDownloadLib tmpLib = getDownloadLib(streamingUrl, null,
+				fileSavePath, timeToDownload, isLive);
+		if (tmpLib.getDownloadStatus() == StreamingDownloadData.download_status_stoped
+				|| tmpLib.getDownloadStatus() == StreamingDownloadData.download_status_failed)
+			tmpLib.startDownload();
+		else if (tmpLib.getDownloadStatus() == StreamingDownloadData.download_status_paused)
+			tmpLib.resumeDownload();
+		return tmpLib.downloadData.id;
+	}
+
+	private StreamingDownloadLib getDownloadLib(String streamingUrl,
+			String pktFilePath, String fileSavePath, int timeToDownload,
+			boolean isLive) {
 		int key = getKeyOf(streamingUrl, fileSavePath);
 		StreamingDownloadLib tmpLib = null;
 		if (libMap.containsKey(key)) {
@@ -103,7 +131,10 @@ public class StreamingDownloadManager {
 				downloadData = new StreamingDownloadData();
 			downloadData.streamingUrl = streamingUrl;
 			downloadData.fileSavePath = fileSavePath;
-			downloadData.packetFile = fileSavePath + ".pkts";
+			if (pktFilePath != null && !"".equals(pktFilePath))
+				downloadData.packetFile = pktFilePath;
+			else
+				downloadData.packetFile = fileSavePath + ".pkts";
 			downloadData.timeStartToDownload = timeToDownload;
 			downloadData.id = key;
 			dataMap.put(key, downloadData);
@@ -112,12 +143,7 @@ public class StreamingDownloadManager {
 			tmpLib.setDownloadListener(mMoboDownloadListener);
 			libMap.put(key, tmpLib);
 		}
-		if (tmpLib.getDownloadStatus() == StreamingDownloadData.download_status_stoped
-				|| tmpLib.getDownloadStatus() == StreamingDownloadData.download_status_failed)
-			tmpLib.startDownload();
-		else if (tmpLib.getDownloadStatus() == StreamingDownloadData.download_status_paused)
-			tmpLib.resumeDownload();
-		return key;
+		return tmpLib;
 	}
 
 	/**
@@ -158,10 +184,10 @@ public class StreamingDownloadManager {
 		}
 	}
 
-	public void stopTempBuffer(int downloadId) {
+	public void stopBuffer(int downloadId) {
 		if (libMap.containsKey(downloadId)) {
 			StreamingDownloadLib tmpLib = libMap.get(downloadId);
-			tmpLib.stopTempBuffer();
+			tmpLib.stopBuffer();
 		}
 
 	}
@@ -182,7 +208,8 @@ public class StreamingDownloadManager {
 				file.deleteOnExit();
 				File pkt_file = new File(tmpLib.downloadData.packetFile);
 				pkt_file.deleteOnExit();
-				File tmp_pkt_file = new File(tmpLib.downloadData.packetFile+".tmp");
+				File tmp_pkt_file = new File(tmpLib.downloadData.packetFile
+						+ ".tmp");
 				tmp_pkt_file.deleteOnExit();
 			}
 		}
@@ -288,12 +315,12 @@ public class StreamingDownloadManager {
 		public String fileSavePath;
 		public String packetFile;
 		// public int progress;
-		/** 已经下载的字节数 **/
+		/** 宸茬粡涓嬭浇鐨勫瓧鑺傛暟 **/
 		public long finishSize;
-		/** 当前下载到的时间 ，单位秒 **/
+		/** 褰撳墠涓嬭浇鍒扮殑鏃堕棿 锛屽崟浣嶇 **/
 		public int currentTime;
 		public int startTime = -1;
-		/** 开始下载的播放时间 ----暂时不用了，因为跳转直接在底层做了 **/
+		/** 寮�涓嬭浇鐨勬挱鏀炬椂闂�----鏆傛椂涓嶇敤浜嗭紝鍥犱负璺宠浆鐩存帴鍦ㄥ簳灞傚仛浜� **/
 		public int timeStartToDownload = 0;
 		public int duration = 0;
 		// public boolean isFinished;
@@ -301,9 +328,9 @@ public class StreamingDownloadManager {
 		public int status = download_status_stoped;
 		public String failedMsg = null;
 		public long last_video_dts;
-		/**是否为直播**/
+		/** 鏄惁涓虹洿鎾� */
 		public boolean isLive;
-		// /** 视频中每个stream与pts的对应关系 **/
+		// /** 瑙嗛涓瘡涓猻tream涓巔ts鐨勫搴斿叧绯�**/
 		// HashMap<Integer, Long> stm_index_pts_map = new HashMap<Integer,
 		// Long>();
 		//

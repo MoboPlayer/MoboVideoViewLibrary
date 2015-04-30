@@ -39,6 +39,10 @@ public class ScreenShotLibJni extends BaseJNILib {
 
 	private static ScreenShotLibJni mScreenShotLib = null;
 
+	public ScreenShotLibJni(){
+		super();
+	}
+	
 	public static ScreenShotLibJni getInstance() {
 		if (mScreenShotLib == null)
 			mScreenShotLib = new ScreenShotLibJni();

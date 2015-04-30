@@ -34,6 +34,9 @@ public class SubtitleJni extends BaseJNILib {
 
 	private static SubtitleJni mSubtitleJni = null;
 
+	public SubtitleJni(){
+		super();
+	}
 	public static SubtitleJni getInstance() {
 		if (mSubtitleJni == null)
 			mSubtitleJni = new SubtitleJni();
