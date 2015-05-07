@@ -68,6 +68,14 @@ public class StreamingDownloadLib {
 		nativeStopDownload();
 	}
 
+	public void pauseBuffer() {
+		nativePauseBuffer();
+	}
+
+	public void resumeBuffer() {
+		nativeResumeBuffer();
+	}
+
 	public void stopBuffer() {
 		nativeStopBuffer();
 	}
@@ -168,6 +176,10 @@ public class StreamingDownloadLib {
 	// public native int nativeGetDownloadedLen();
 
 	public native int nativeGetStartDownloadedTime();
+
+	public native void nativePauseBuffer();
+
+	public native void nativeResumeBuffer();
 
 	public native void nativeStopBuffer();
 

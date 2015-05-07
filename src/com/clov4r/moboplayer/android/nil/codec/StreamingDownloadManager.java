@@ -83,23 +83,15 @@ public class StreamingDownloadManager {
 	}
 
 	/**
-	 * Start a download task.It will be created if not existed.
+	 * Start a buffer task.It will be created if not existed.
 	 * 
 	 * @param streamingUrl
 	 * @param fileSavePath
 	 * @return
 	 */
 	public int startBuffer(String streamingUrl, String pktPath, int startPos) {
-		StreamingDownloadLib tmpLib = getDownloadLib(streamingUrl, null,
-				pktPath, 0, false);
-		// if (tmpLib.getDownloadStatus() ==
-		// StreamingDownloadData.download_status_stoped
-		// || tmpLib.getDownloadStatus() ==
-		// StreamingDownloadData.download_status_failed)
-		// tmpLib.startDownload();
-		// else if (tmpLib.getDownloadStatus() ==
-		// StreamingDownloadData.download_status_paused)
-		// tmpLib.resumeDownload();
+		StreamingDownloadLib tmpLib = getDownloadLib(streamingUrl, pktPath,
+				null, 0, false);
 		tmpLib.startBuffer(startPos);
 		return tmpLib.downloadData.id;
 	}
@@ -188,6 +180,13 @@ public class StreamingDownloadManager {
 		if (libMap.containsKey(downloadId)) {
 			StreamingDownloadLib tmpLib = libMap.get(downloadId);
 			tmpLib.stopBuffer();
+			libMap.remove(downloadId);
+			saveDownloadInfo();
+			File pkt_file = new File(tmpLib.downloadData.packetFile);
+			pkt_file.deleteOnExit();
+			File tmp_pkt_file = new File(tmpLib.downloadData.packetFile
+					+ ".tmp");
+			tmp_pkt_file.deleteOnExit();
 		}
 
 	}
@@ -266,7 +265,8 @@ public class StreamingDownloadManager {
 			int id = iterator.next();
 			StreamingDownloadData tmpData = dataMap.get(id);
 			if (tmpData.streamingUrl.equals(url)
-					&& tmpData.fileSavePath.equals(savePath)) {
+					&& (savePath == null
+							|| tmpData.fileSavePath.equals(savePath))) {
 				return tmpData;
 			}
 		}
