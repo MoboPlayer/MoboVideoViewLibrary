@@ -9,13 +9,13 @@ import java.io.ObjectOutputStream;
 import android.content.Context;
 import android.os.Environment;
 
-/** ÐòÁÐ»¯Êý¾Ý **/
+/** ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ **/
 public class DataSaveLib {
 
 	public static final String flag_serializable_data = "flag_serializable_data";
-	/** ±£´æ½âÂë·½Ê½ÁÐ±í **/
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë·½Ê½ï¿½Ð±ï¿½ **/
 	public static final String name_of_format_list = "name_of_format_list";
-	/** ±£´æStreamingÏÂÔØÐÅÏ¢ **/
+	/** ï¿½ï¿½ï¿½ï¿½Streamingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ **/
 	public static final String name_of_streaming_download_info = "name_of_streaming_download_info";
 	String saveDirPath = "";
 	String saveFilePath = "";
@@ -58,7 +58,7 @@ public class DataSaveLib {
 //	}
 
 	/**
-	 * ½«Êý¾ÝÐòÁÐ»¯µ½±¾µØ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param data
 	 */
@@ -66,6 +66,9 @@ public class DataSaveLib {
 		ObjectOutputStream oos = null;
 		FileOutputStream fos = null;
 		try {
+			File file = new File(saveFilePath);
+			if (!file.exists() || file.length() <= 0)
+				return;
 			fos = new FileOutputStream(saveFilePath);
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(data);
@@ -84,7 +87,7 @@ public class DataSaveLib {
 	}
 
 	/**
-	 ** ¶ÁÈ¡±¾µØÐòÁÐ»¯µÄÊý¾Ý
+	 ** ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @return
 	 */

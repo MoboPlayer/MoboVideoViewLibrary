@@ -35,6 +35,7 @@ import com.clov4r.moboplayer.android.nil.codec.StreamingDownloadManager.Streamin
 public class StreamingDownloadLib {
 	MoboDownloadListener mMoboDownloadListener = null;
 	StreamingDownloadData downloadData = null;
+	boolean isBufferLib = false;
 
 	public StreamingDownloadLib(StreamingDownloadData downloadData) {
 		this.downloadData = downloadData;
@@ -45,7 +46,9 @@ public class StreamingDownloadLib {
 	}
 
 	public void startBuffer(long startPos) {
-		nativeStartBuffer(downloadData.streamingUrl, downloadData.packetFile, startPos);
+		nativeStartBuffer(downloadData.streamingUrl, downloadData.packetFile,
+				startPos);
+		isBufferLib = true;
 	}
 
 	public void startDownload() {
@@ -63,6 +66,10 @@ public class StreamingDownloadLib {
 	}
 
 	public void stopDownload() {
+		if (isBufferLib) {
+			stopBuffer();
+			isBufferLib = false;
+		}
 		downloadData.status = StreamingDownloadData.download_status_stoped;
 		stopBuffer();
 		nativeStopDownload();

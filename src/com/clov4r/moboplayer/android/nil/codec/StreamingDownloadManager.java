@@ -72,7 +72,12 @@ public class StreamingDownloadManager {
 			return;
 		Iterator<Integer> iterator = libMap.keySet().iterator();
 		while (iterator.hasNext()) {
-			stopDownload(iterator.next());
+			int id = iterator.next();
+			StreamingDownloadLib tmpLib = libMap.get(id);
+			if (tmpLib.isBufferLib)
+				stopBuffer(id);
+			else
+				stopDownload(iterator.next());
 		}
 		saveDownloadInfo();
 		dataMap.clear();
@@ -83,19 +88,31 @@ public class StreamingDownloadManager {
 	}
 
 	/**
-	 * Start a buffer task.It will be created if not existed.
+	 * Start a buffer task.
 	 * 
 	 * @param streamingUrl
 	 * @param fileSavePath
+	 * @param pktPath
+	 * @param startPos
 	 * @return
 	 */
-	public int startBuffer(String streamingUrl, String pktPath, int startPos) {
+	public int startBuffer(String streamingUrl, String fileSavePath,
+			String pktPath, int startPos) {
 		StreamingDownloadLib tmpLib = getDownloadLib(streamingUrl, pktPath,
-				null, 0, false);
+				fileSavePath, 0, false);
 		tmpLib.startBuffer(startPos);
 		return tmpLib.downloadData.id;
 	}
 
+	/**
+	 * Start a download task.It will be created if not existed.
+	 * 
+	 * @param streamingUrl
+	 * @param fileSavePath
+	 * @param timeToDownload
+	 * @param isLive
+	 * @return
+	 */
 	public int startDownload(String streamingUrl, String fileSavePath,
 			int timeToDownload, boolean isLive) {
 		StreamingDownloadLib tmpLib = getDownloadLib(streamingUrl, null,
@@ -265,8 +282,8 @@ public class StreamingDownloadManager {
 			int id = iterator.next();
 			StreamingDownloadData tmpData = dataMap.get(id);
 			if (tmpData.streamingUrl.equals(url)
-					&& (savePath == null
-							|| tmpData.fileSavePath.equals(savePath))) {
+					&& tmpData.fileSavePath != null
+					&& tmpData.fileSavePath.equals(savePath)) {
 				return tmpData;
 			}
 		}
