@@ -136,6 +136,11 @@
     public void deleteDownloadTask(boolean deleteFile)
     删除待播放流媒体地址对应的下载信息
       deleteFile 是否删除下载的视频文件
+      
+    public void setTimeout(int time)
+    设置连接超时时间(用于打开或下载流媒体)，注意：一定要在setVideoPath之前调用此方法！！！ 
+    Set timeout for opening or downloading streaming.Please note:set this before setVideoPath()
+    
 ```
 
 ##PlayerActivityBase
