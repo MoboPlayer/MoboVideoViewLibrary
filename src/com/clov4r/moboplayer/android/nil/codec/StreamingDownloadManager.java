@@ -94,12 +94,13 @@ public class StreamingDownloadManager {
 	 * @param fileSavePath
 	 * @param pktPath
 	 * @param startPos
+	 * @param timeout
 	 * @return
 	 */
 	public int startBuffer(String streamingUrl, String fileSavePath,
-			String pktPath, int startPos) {
+			String pktPath, int startPos, int timeout) {
 		StreamingDownloadLib tmpLib = getDownloadLib(streamingUrl, pktPath,
-				fileSavePath, 0, false);
+				fileSavePath, 0, false, timeout);
 		tmpLib.startBuffer(startPos);
 		return tmpLib.downloadData.id;
 	}
@@ -111,12 +112,13 @@ public class StreamingDownloadManager {
 	 * @param fileSavePath
 	 * @param timeToDownload
 	 * @param isLive
+	 * @param timeout
 	 * @return
 	 */
 	public int startDownload(String streamingUrl, String fileSavePath,
-			int timeToDownload, boolean isLive) {
+			int timeToDownload, boolean isLive, int timeout) {
 		StreamingDownloadLib tmpLib = getDownloadLib(streamingUrl, null,
-				fileSavePath, timeToDownload, isLive);
+				fileSavePath, timeToDownload, isLive, timeout);
 		if (tmpLib.getDownloadStatus() == StreamingDownloadData.download_status_stoped
 				|| tmpLib.getDownloadStatus() == StreamingDownloadData.download_status_failed)
 			tmpLib.startDownload();
@@ -127,13 +129,14 @@ public class StreamingDownloadManager {
 
 	private StreamingDownloadLib getDownloadLib(String streamingUrl,
 			String pktFilePath, String fileSavePath, int timeToDownload,
-			boolean isLive) {
+			boolean isLive, int timeout) {
 		int key = getKeyOf(streamingUrl, fileSavePath);
 		StreamingDownloadLib tmpLib = null;
+		StreamingDownloadData downloadData = null;
 		if (libMap.containsKey(key)) {
 			tmpLib = libMap.get(key);
+			downloadData = tmpLib.downloadData;
 		} else {
-			StreamingDownloadData downloadData = null;
 			if (dataMap.containsKey(key))
 				downloadData = dataMap.get(key);
 			else
@@ -152,6 +155,7 @@ public class StreamingDownloadManager {
 			tmpLib.setDownloadListener(mMoboDownloadListener);
 			libMap.put(key, tmpLib);
 		}
+		downloadData.timeout = timeout;
 		return tmpLib;
 	}
 
@@ -332,12 +336,12 @@ public class StreamingDownloadManager {
 		public String fileSavePath;
 		public String packetFile;
 		// public int progress;
-		/** 宸茬粡涓嬭浇鐨勫瓧鑺傛暟 **/
+		/** 已经下载的字节数 **/
 		public long finishSize;
-		/** 褰撳墠涓嬭浇鍒扮殑鏃堕棿 锛屽崟浣嶇 **/
+		/** 当前下载到的时间 ，单位秒 **/
 		public int currentTime;
 		public int startTime = -1;
-		/** 寮�涓嬭浇鐨勬挱鏀炬椂闂�----鏆傛椂涓嶇敤浜嗭紝鍥犱负璺宠浆鐩存帴鍦ㄥ簳灞傚仛浜� **/
+		/**  **/
 		public int timeStartToDownload = 0;
 		public int duration = 0;
 		// public boolean isFinished;
@@ -345,25 +349,9 @@ public class StreamingDownloadManager {
 		public int status = download_status_stoped;
 		public String failedMsg = null;
 		public long last_video_dts;
-		/** 鏄惁涓虹洿鎾� */
+		/** 是否是直播 **/
 		public boolean isLive;
-		// /** 瑙嗛涓瘡涓猻tream涓巔ts鐨勫搴斿叧绯�**/
-		// HashMap<Integer, Long> stm_index_pts_map = new HashMap<Integer,
-		// Long>();
-		//
-		// long[] getPtsArray() {
-		// // stm_index_pts_map.put(0, 7040l);
-		// // stm_index_pts_map.put(1, 6919l);
-		// if (stm_index_pts_map.size() == 0)
-		// return null;
-		// else {
-		// long[] resArray = new long[stm_index_pts_map.size()];
-		// for (int i = 0; i < stm_index_pts_map.size(); i++)
-		// if (stm_index_pts_map.containsKey(i))
-		// resArray[i] = stm_index_pts_map.get(i);
-		// return resArray;
-		// }
-		// }
+		public int timeout;
 	}
 
 }

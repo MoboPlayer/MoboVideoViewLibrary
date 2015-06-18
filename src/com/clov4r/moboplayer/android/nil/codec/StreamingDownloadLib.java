@@ -45,9 +45,9 @@ public class StreamingDownloadLib {
 		mMoboDownloadListener = listener;
 	}
 
-	public void startBuffer(long startPos) {
+	public void startBuffer(int startPos) {
 		nativeStartBuffer(downloadData.streamingUrl, downloadData.packetFile,
-				startPos);
+				startPos, downloadData.timeout);
 		isBufferLib = true;
 	}
 
@@ -163,12 +163,12 @@ public class StreamingDownloadLib {
 
 	public native int nativeStartDownload(String streamingUrl,
 			String fileSavePath, String packetFile, long dts,
-			long finishedSize, int isLive);// ,
+			long finishedSize, int isLive, int timeout);// ,
 	// int
 	// timeToDownload
 
 	public native int nativeStartBuffer(String streamingUrl, String packetFile,
-			long startPos);
+			int startPos, int timeout);
 
 	public native void nativeStartDownload3(int intArray[]);
 
@@ -223,7 +223,8 @@ public class StreamingDownloadLib {
 					mStreamingDownloadData.packetFile,
 					mStreamingDownloadData.last_video_dts,
 					mStreamingDownloadData.finishSize,
-					mStreamingDownloadData.isLive ? 1 : 0);// mStreamingDownloadData.timeStartToDownload
+					mStreamingDownloadData.isLive ? 1 : 0,
+					mStreamingDownloadData.timeout);// mStreamingDownloadData.timeStartToDownload
 			return null;
 		}
 
