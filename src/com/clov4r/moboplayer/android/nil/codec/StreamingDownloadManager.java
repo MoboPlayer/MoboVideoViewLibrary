@@ -315,6 +315,8 @@ public class StreamingDownloadManager {
 		public void onDownloadFinished(StreamingDownloadData data);
 
 		public void onDownloadFailed(StreamingDownloadData data);
+		
+		public void onBuffering();
 	}
 
 	public static class StreamingDownloadData implements Serializable {

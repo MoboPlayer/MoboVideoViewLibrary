@@ -106,6 +106,11 @@ public class StreamingDownloadLib {
 		File file = new File(downloadData.fileSavePath + ".tmp");
 		boolean deleted = file.delete();
 	}
+	
+	public void onBuffering(){
+		if (mMoboDownloadListener != null)
+			mMoboDownloadListener.onBuffering();
+	}
 
 	public void onDownloadFinished() {
 		downloadData.status = StreamingDownloadData.download_status_finished;
