@@ -71,8 +71,14 @@ public class StreamingDownloadLib {
 			isBufferLib = false;
 		}
 		downloadData.status = StreamingDownloadData.download_status_stoped;
-		stopBuffer();
-		nativeStopDownload();
+		// stopBuffer();
+
+		new Thread() {
+			@Override
+			public void run() {
+				nativeStopDownload();
+			}
+		}.start();
 	}
 
 	public void pauseBuffer() {
@@ -84,7 +90,12 @@ public class StreamingDownloadLib {
 	}
 
 	public void stopBuffer() {
-		nativeStopBuffer();
+		new Thread() {
+			@Override
+			public void run() {
+				nativeStopBuffer();
+			}
+		}.start();
 	}
 
 	public void onDownloadProgressChanged(long position, int currentTime,
@@ -106,8 +117,8 @@ public class StreamingDownloadLib {
 		File file = new File(downloadData.fileSavePath + ".tmp");
 		boolean deleted = file.delete();
 	}
-	
-	public void onBuffering(){
+
+	public void onBuffering() {
 		if (mMoboDownloadListener != null)
 			mMoboDownloadListener.onBuffering();
 	}
