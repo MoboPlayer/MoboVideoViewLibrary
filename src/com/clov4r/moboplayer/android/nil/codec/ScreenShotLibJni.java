@@ -54,6 +54,9 @@ public class ScreenShotLibJni extends BaseJNILib {
 	protected native Bitmap getThumbnail(String videoName, int position,
 			int width, int height);
 
+	protected native Bitmap getKeyFrameThumbnail(String videoName, int position,
+			int width, int height);
+
 	protected native Bitmap getIDRThumbnail(String videoName, int width, int height);
 
 	protected native void releaseByteBuffer(ByteBuffer buffer);
@@ -76,6 +79,12 @@ public class ScreenShotLibJni extends BaseJNILib {
 		return getThumbnail(videoPath, position, width, height);
 	}
 
+	public Bitmap getKeyFrameScreenShot(String videoPath, String thumbnailSavePath,
+			int position, int width, int height) {
+		pathMap.put(videoPath, thumbnailSavePath);
+		return getKeyFrameThumbnail(videoPath, position, width, height);
+	}
+	
 	public Bitmap createBitmap(ByteBuffer bitmapData, String size, String fileName) {
 		if (bitmapData != null) {
 			IntBuffer intBuffer = bitmapData.asIntBuffer();
