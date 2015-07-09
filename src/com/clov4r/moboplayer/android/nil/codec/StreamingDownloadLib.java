@@ -73,12 +73,12 @@ public class StreamingDownloadLib {
 		downloadData.status = StreamingDownloadData.download_status_stoped;
 		// stopBuffer();
 
-		new Thread() {
-			@Override
-			public void run() {
+//		new Thread() {
+//			@Override
+//			public void run() {
 				nativeStopDownload();
-			}
-		}.start();
+//			}
+//		}.start();
 	}
 
 	public void pauseBuffer() {
@@ -90,12 +90,12 @@ public class StreamingDownloadLib {
 	}
 
 	public void stopBuffer() {
-		new Thread() {
-			@Override
-			public void run() {
+//		new Thread() {
+//			@Override
+//			public void run() {
 				nativeStopBuffer();
-			}
-		}.start();
+//			}
+//		}.start();
 	}
 
 	public void onDownloadProgressChanged(long position, int currentTime,

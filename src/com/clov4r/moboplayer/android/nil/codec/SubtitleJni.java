@@ -27,16 +27,18 @@ package com.clov4r.moboplayer.android.nil.codec;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import org.apache.commons.io.FileUtils;
+
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 
 public class SubtitleJni extends BaseJNILib {
 
 	private static SubtitleJni mSubtitleJni = null;
 
-	public SubtitleJni(){
-		super();
-	}
 	public static SubtitleJni getInstance() {
 		if (mSubtitleJni == null)
 			mSubtitleJni = new SubtitleJni();
@@ -62,8 +64,10 @@ public class SubtitleJni extends BaseJNILib {
 	 */
 	public native int openSubtitleFileInJNI2(String filePath, int index,
 			int subtiltle_index);
+
 	/**
-	 * Ô¤½âÂë·½Ê½£ºÒ»´ÎÐÔ½âÂëÍêËùÓÐ×ÖÄ»¡£ÓÅµã£ºÈ¡×ÖÄ»Ê±Ð§ÂÊ¸ß£»È±µã£º´ò¿ª×ÖÄ»Ê±µÈ´ýÊ±¼ä¿ÉÄÜ½Ï³¤£¨×ÖÄ»Ô½¶àÊ±¼äÔ½³¤£©
+	 * é¢„è§£ç æ–¹å¼ï¼šä¸€æ¬¡æ€§è§£ç å®Œæ‰€æœ‰å­—å¹•ã€‚ä¼˜ç‚¹ï¼šå–å­—å¹•æ—¶æ•ˆçŽ‡é«˜ï¼›ç¼ºç‚¹ï¼šæ‰“å¼€å­—å¹•æ—¶ç­‰å¾…æ—¶é—´å¯èƒ½è¾ƒé•¿ï¼ˆå­—å¹•è¶Šå¤šæ—¶é—´è¶Šé•¿ï¼‰
+	 * 
 	 * @param filePath
 	 * @param index
 	 * @return
@@ -79,16 +83,17 @@ public class SubtitleJni extends BaseJNILib {
 					FileUtils.writeLines(tempFile, "UTF-8",
 							FileUtils.readLines(new File(filePath), charSet));
 				}
-				return openSubtitleFileInJNI(tempPath, index,
-						subtiltle_index);
+				return openSubtitleFileInJNI(tempPath, index, subtiltle_index);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return openSubtitleFileInJNI(filePath, index, subtiltle_index);
 	}
+
 	/**
-	 * °´Ðè½âÂë·½Ê½£ºµ½ÏàÓ¦µÄÊ±¼äµãÊ±ÔÙ½âÂëÏàÓ¦µÄ×ÖÄ»¡£ÓÅµã£º´ò¿ª½Ï¿ì£»È±µã£º»ñÈ¡×ÖÄ»Ð§ÂÊÂÔµÍ
+	 * æŒ‰éœ€è§£ç æ–¹å¼ï¼šåˆ°ç›¸åº”çš„æ—¶é—´ç‚¹æ—¶å†è§£ç ç›¸åº”çš„å­—å¹•ã€‚ä¼˜ç‚¹ï¼šæ‰“å¼€è¾ƒå¿«ï¼›ç¼ºç‚¹ï¼šèŽ·å–å­—å¹•æ•ˆçŽ‡ç•¥ä½Ž
+	 * 
 	 * @param filePath
 	 * @param index
 	 * @return
@@ -105,8 +110,7 @@ public class SubtitleJni extends BaseJNILib {
 					FileUtils.writeLines(tempFile, "UTF-8",
 							FileUtils.readLines(new File(filePath), charSet));
 				}
-				return openSubtitleFileInJNI2(tempPath, index,
-						subtiltle_index);
+				return openSubtitleFileInJNI2(tempPath, index, subtiltle_index);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -115,7 +119,8 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * Ô¤½âÂë·½Ê½£ºÒ»´ÎÐÔ½âÂëÍêËùÓÐ×ÖÄ»¡£ÓÅµã£ºÈ¡×ÖÄ»Ê±Ð§ÂÊ¸ß£»È±µã£º´ò¿ª×ÖÄ»Ê±µÈ´ýÊ±¼ä¿ÉÄÜ½Ï³¤£¨×ÖÄ»Ô½¶àÊ±¼äÔ½³¤£©
+	 * é¢„è§£ç æ–¹å¼ï¼šä¸€æ¬¡æ€§è§£ç å®Œæ‰€æœ‰å­—å¹•ã€‚ä¼˜ç‚¹ï¼šå–å­—å¹•æ—¶æ•ˆçŽ‡é«˜ï¼›ç¼ºç‚¹ï¼šæ‰“å¼€å­—å¹•æ—¶ç­‰å¾…æ—¶é—´å¯èƒ½è¾ƒé•¿ï¼ˆå­—å¹•è¶Šå¤šæ—¶é—´è¶Šé•¿ï¼‰
+	 * 
 	 * @param filePath
 	 * @param index
 	 * @return
@@ -125,7 +130,8 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * °´Ðè½âÂë·½Ê½£ºµ½ÏàÓ¦µÄÊ±¼äµãÊ±ÔÙ½âÂëÏàÓ¦µÄ×ÖÄ»¡£ÓÅµã£º´ò¿ª½Ï¿ì£»È±µã£º»ñÈ¡×ÖÄ»Ð§ÂÊÂÔµÍ
+	 * æŒ‰éœ€è§£ç æ–¹å¼ï¼šåˆ°ç›¸åº”çš„æ—¶é—´ç‚¹æ—¶å†è§£ç ç›¸åº”çš„å­—å¹•ã€‚ä¼˜ç‚¹ï¼šæ‰“å¼€è¾ƒå¿«ï¼›ç¼ºç‚¹ï¼šèŽ·å–å­—å¹•æ•ˆçŽ‡ç•¥ä½Ž
+	 * 
 	 * @param filePath
 	 * @param index
 	 * @return
@@ -159,29 +165,43 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * ¸ù¾ÝÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈÝ
+	 * æ ¹æ®æ—¶é—´èŽ·å–å­—å¹•å†…å®¹
 	 * 
 	 * @param time
-	 * µ¥Î»£ººÁÃë
+	 *            å•ä½ï¼šæ¯«ç§’
 	 * @return
 	 */
 	public native String getSubtitleByTime(int time, int subtiltle_index);
 
 	/**
-	 * ¸ù¾ÝÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈÝ
+	 * æ ¹æ®æ—¶é—´èŽ·å–å­—å¹•å†…å®¹
+	 * 
 	 * @param time
-	 * µ¥Î»£ººÁÃë
+	 *            å•ä½ï¼šæ¯«ç§’
 	 * @param subtiltle_index
 	 * @param time_diff
 	 * @return
 	 */
-	public native String getSubtitleByTime2(int time, int subtiltle_index, int time_diff);
+	public native String getSubtitleByTime2(int time, int subtiltle_index,
+			int time_diff);
 
 	/**
-	 * ¸ù¾ÝÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈÝ
+	 * æ ¹æ®æ—¶é—´èŽ·å–å­—å¹•å†…å®¹(å›¾å½¢å­—å¹•)
 	 * 
 	 * @param time
-	 * µ¥Î»£ººÁÃë
+	 *            å•ä½ï¼šæ¯«ç§’
+	 * @param subtiltle_index
+	 * @param time_diff
+	 * @return
+	 */
+	public native Bitmap getSubtitleByTime3(int time, int subtiltle_index,
+			int time_diff, ByteBuffer byteBuffer);
+
+	/**
+	 * æ ¹æ®æ—¶é—´èŽ·å–å­—å¹•å†…å®¹
+	 * 
+	 * @param time
+	 *            å•ä½ï¼šæ¯«ç§’
 	 * @return
 	 */
 	public String getSubtitleByTime(int time) {
@@ -189,7 +209,7 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * ¸ù¾ÝÊ±¼ä»ñÈ¡×ÖÄ»ÄÚÈÝ
+	 * æ ¹æ®æ—¶é—´èŽ·å–å­—å¹•å†…å®¹
 	 * 
 	 * @param time
 	 * @return
@@ -198,6 +218,35 @@ public class SubtitleJni extends BaseJNILib {
 		return getSubtitleByTime2(time, 0, 200);
 	}
 
+	/**
+	 * æ ¹æ®æ—¶é—´èŽ·å–å›¾å½¢å­—å¹•
+	 * 
+	 * @param time
+	 * @param byteBuffer
+	 *            å­—å¹•ç¼“å­˜åŒº
+	 * @return
+	 */
+	public Bitmap getImageSubtitleByTime(int time, ByteBuffer byteBuffer) {
+		return getSubtitleByTime3(time, 0, 200, byteBuffer);
+	}
+
+	public Bitmap createBitmapOfSubtitle(ByteBuffer data, int width, int height) {
+		IntBuffer intBuffer = data.asIntBuffer();
+		int[] dataArray = new int[intBuffer.limit()];
+		intBuffer.get(dataArray);
+		Bitmap rest = Bitmap.createBitmap(dataArray, width, height,
+				Config.RGB_565);
+
+		return rest;
+
+	}
+
+	/**
+	 * 1:image subtitle ; >1:text subtitle
+	 * 
+	 * @param subtiltle_index
+	 * @return
+	 */
 	public native int getSubtitleType(int subtiltle_index);
 
 	public native String getSubtitleLanguage(String file);
@@ -213,10 +262,10 @@ public class SubtitleJni extends BaseJNILib {
 	}
 
 	/**
-	 * ×ÖÄ»ÎÄ¼þÊÇ·ñ´æÔÚ
+	 * å­—å¹•æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 	 * 
 	 * @param file
-	 * @return ×ÖÄ»¸öÊý Ö»Òª>0¾Í±íÊ¾´æÔÚ
+	 * @return å­—å¹•ä¸ªæ•° åªè¦>0å°±è¡¨ç¤ºå­˜åœ¨
 	 */
 	public native int isSubtitleExits(String file);
 
