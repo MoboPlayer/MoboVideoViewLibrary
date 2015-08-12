@@ -184,6 +184,30 @@ public class StreamingDownloadManager {
 	}
 
 	/**
+	 * Pause buffer task
+	 * 
+	 * @param downloadId
+	 */
+	public void pauseBuffer(int downloadId) {
+		if (libMap.containsKey(downloadId)) {
+			StreamingDownloadLib tmpLib = libMap.get(downloadId);
+			tmpLib.pauseBuffer();
+		}
+	}
+
+	/**
+	 * Restart an existed buffer task
+	 * 
+	 * @param downloadId
+	 */
+	public void resumeBuffer(int downloadId) {
+		if (libMap.containsKey(downloadId)) {
+			StreamingDownloadLib tmpLib = libMap.get(downloadId);
+			tmpLib.resumeBuffer();
+		}
+	}
+
+	/**
 	 * Stop download task
 	 * 
 	 * @param downloadId
@@ -315,7 +339,7 @@ public class StreamingDownloadManager {
 		public void onDownloadFinished(StreamingDownloadData data);
 
 		public void onDownloadFailed(StreamingDownloadData data);
-		
+
 		public void onBuffering();
 	}
 
@@ -354,6 +378,8 @@ public class StreamingDownloadManager {
 		/** 是否是直播 **/
 		public boolean isLive;
 		public int timeout;
+		/** 数据类型 :0，下载；1，缓冲 **/
+		public int downloadType;
 	}
 
 }

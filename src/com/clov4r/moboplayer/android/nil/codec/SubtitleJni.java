@@ -96,6 +96,9 @@ public class SubtitleJni extends BaseJNILib {
 	 * 
 	 * @param filePath
 	 * @param index
+	 *            字幕流在相应字幕（视频）文件中的index
+	 * @param subtiltle_index
+	 *            打开字幕的index（可打开不同的字幕文件，index依次增加）
 	 * @return
 	 */
 	public int openSubtitleFile_2(String filePath, int index,

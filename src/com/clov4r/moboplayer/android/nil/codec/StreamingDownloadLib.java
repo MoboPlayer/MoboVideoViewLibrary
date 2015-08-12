@@ -73,12 +73,12 @@ public class StreamingDownloadLib {
 		downloadData.status = StreamingDownloadData.download_status_stoped;
 		// stopBuffer();
 
-//		new Thread() {
-//			@Override
-//			public void run() {
-				nativeStopDownload();
-//			}
-//		}.start();
+		// new Thread() {
+		// @Override
+		// public void run() {
+		nativeStopDownload();
+		// }
+		// }.start();
 	}
 
 	public void pauseBuffer() {
@@ -90,18 +90,19 @@ public class StreamingDownloadLib {
 	}
 
 	public void stopBuffer() {
-//		new Thread() {
-//			@Override
-//			public void run() {
-				nativeStopBuffer();
-//			}
-//		}.start();
+		// new Thread() {
+		// @Override
+		// public void run() {
+		nativeStopBuffer();
+		// }
+		// }.start();
 	}
 
 	public void onDownloadProgressChanged(long position, int currentTime,
 			long dts, int downloadType) {// int
 											// streamIndex,
 		downloadData.currentTime = currentTime;
+		downloadData.downloadType = downloadType;
 		if (downloadData.last_video_dts < dts)
 			downloadData.last_video_dts = dts;
 		if (downloadData.finishSize < position)
