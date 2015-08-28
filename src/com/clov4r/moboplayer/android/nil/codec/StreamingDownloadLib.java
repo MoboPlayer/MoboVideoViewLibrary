@@ -234,7 +234,7 @@ public class StreamingDownloadLib {
 			mStreamingDownloadData.status = StreamingDownloadData.download_status_started;
 			if (mStreamingDownloadData.currentTime > 0)
 				mStreamingDownloadData.startTime = mStreamingDownloadData.currentTime;
-			mStreamingDownloadData.startTime = 10;
+//			mStreamingDownloadData.startTime = 10;
 			nativeStartDownload(mStreamingDownloadData.streamingUrl,
 					mStreamingDownloadData.fileSavePath,
 					mStreamingDownloadData.packetFile,
