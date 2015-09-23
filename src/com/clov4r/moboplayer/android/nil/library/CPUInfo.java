@@ -187,6 +187,10 @@ public class CPUInfo {
 				armVersion = 6;
 			else if (cpuName.startsWith("ARMv7"))
 				armVersion = 7;
+			else if (cpuName.startsWith("ARMv8"))
+				armVersion = 8;
+			else 
+				armVersion = 9;
 		}
 	}
 
@@ -223,7 +227,7 @@ public class CPUInfo {
 		if (ffmpeg_name == null)
 			if (isX86) {
 				ffmpeg_name = "libffmpeg_x86.so";
-			} else if (armVersion == 7) {
+			} else if (armVersion >= 7) {
 				if (hasNeon())
 					ffmpeg_name = "libffmpeg_armv7_neon.so";// lib .so
 				else
