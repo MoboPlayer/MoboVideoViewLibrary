@@ -133,7 +133,7 @@ public class ScreenShotLibJni extends BaseJNILib {
 
 	public Bitmap createBitmap(String fileName, String imgPath, int res) {
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inPreferredConfig = Config.ARGB_8888;
+		options.inPreferredConfig = Config.RGB_565;
 		Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
 		if (res >= 0) {// 截图成功
 			if (mOnBitmapCreatedListener != null)
