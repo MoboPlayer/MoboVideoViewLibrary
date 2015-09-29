@@ -56,6 +56,9 @@ public class ScreenShotLibJni extends BaseJNILib {
 			int position, int width, int height);
 
 	protected native Bitmap getKeyFrameThumbnail(String videoName,
+			int position, int width, int height);
+
+	protected native Bitmap getKeyFrameThumbnail2(String videoName,
 			String imagePath, int position, int width, int height);
 
 	protected native Bitmap getIDRThumbnail(String videoName, String imagePath,
@@ -85,7 +88,13 @@ public class ScreenShotLibJni extends BaseJNILib {
 	public Bitmap getKeyFrameScreenShot(String videoPath,
 			String thumbnailSavePath, int position, int width, int height) {
 		pathMap.put(videoPath, thumbnailSavePath);
-		return getKeyFrameThumbnail(videoPath, thumbnailSavePath, position,
+		return getKeyFrameThumbnail(videoPath, position, width, height);
+	}
+
+	public Bitmap getKeyFrameScreenShot_2(String videoPath,
+			String thumbnailSavePath, int position, int width, int height) {
+		pathMap.put(videoPath, thumbnailSavePath);
+		return getKeyFrameThumbnail2(videoPath, thumbnailSavePath, position,
 				width, height);
 	}
 
@@ -105,7 +114,7 @@ public class ScreenShotLibJni extends BaseJNILib {
 			intBuffer.get(data);
 			Bitmap bitmap = Bitmap.createBitmap(data,
 					Integer.parseInt(sizeArray[0]),
-					Integer.parseInt(sizeArray[1]), Config.RGB_565);
+					Integer.parseInt(sizeArray[1]), Config.ARGB_8888);
 			Log.e("ScreenShotLib", "" + size);
 			// return bitmap;
 			if (bitmap != null && pathMap.containsKey(fileName)) {
@@ -131,7 +140,8 @@ public class ScreenShotLibJni extends BaseJNILib {
 				mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName,
 						imgPath);
 		} else {
-			mOnBitmapCreatedListener.onBitmapCreatedFailed(fileName);
+			if (mOnBitmapCreatedListener != null)
+				mOnBitmapCreatedListener.onBitmapCreatedFailed(fileName);
 		}
 		return bitmap;
 	}
