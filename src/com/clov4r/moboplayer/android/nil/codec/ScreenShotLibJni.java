@@ -34,6 +34,9 @@ import java.util.HashMap;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.Config;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.provider.CalendarContract.Colors;
 import android.util.Log;
 
 public class ScreenShotLibJni extends BaseJNILib {
@@ -131,11 +134,14 @@ public class ScreenShotLibJni extends BaseJNILib {
 		return null;
 	}
 
-	public Bitmap createBitmap(String fileName, String imgPath, int res) {
+	public Bitmap createBitmap(String fileName, String imgPath,
+			int width, int height) {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inPreferredConfig = Config.RGB_565;
+		options.outHeight = height;
+		options.outWidth = width;
 		Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
-		if (res >= 0) {// 截图成功
+		if (bitmap == null) {// 截图成功
 			if (mOnBitmapCreatedListener != null)
 				mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName,
 						imgPath);
@@ -144,6 +150,27 @@ public class ScreenShotLibJni extends BaseJNILib {
 				mOnBitmapCreatedListener.onBitmapCreatedFailed(fileName);
 		}
 		return bitmap;
+	}
+
+	public Bitmap createBitmap(String fileName, String imgPath, byte[] data,
+			int width, int height) {
+		if (data != null) {
+			/** RGB565 **/
+			ByteBuffer buffer = ByteBuffer.wrap(data);
+			Bitmap bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
+			bitmap.copyPixelsFromBuffer(buffer);
+			saveBitmap(imgPath, bitmap);
+			if (mOnBitmapCreatedListener != null) {
+				if (bitmap != null)
+					mOnBitmapCreatedListener.onBitmapCreated(bitmap, fileName,
+							imgPath);
+			}
+			return bitmap;
+		} else {
+			if (mOnBitmapCreatedListener != null)
+				mOnBitmapCreatedListener.onBitmapCreatedFailed(fileName);
+			return null;
+		}
 	}
 
 	public void initByteBuffer(ByteBuffer buffer, int size) {
