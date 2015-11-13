@@ -141,6 +141,10 @@
     设置连接超时时间(用于打开或下载流媒体)，注意：一定要在setVideoPath之前调用此方法！！！ 
     Set timeout for opening or downloading streaming.Please note:set this before setVideoPath()
     
+    public void setPlayMultiplier(float multiplier)
+    设置倍速播放（软解有效）
+        float multiplier 播放倍数
+    
 ```
 
 ##PlayerActivityBase
