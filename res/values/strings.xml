@@ -3,4 +3,10 @@
     <string name="app_name">MoboVideoViewLibrary</string>
 
     <string name="player_file_plaied_failed">Played %s failed</string>
+    
+    <string name="out_of_date">MoboVideoView is out of date,please update from github or buy the paid-version\r\nCopyright: Ji\'nan Clov4r Information Technology Co. Ltd.\r\nContact number:+86 18660167295</string>
+    <string name="goto_index">HomePage</string>
+    <string name="goto_github">Update</string>
+    <string name="contact_me">ContactUs</string>
+    
 </resources>

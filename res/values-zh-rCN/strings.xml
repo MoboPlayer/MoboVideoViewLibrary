@@ -2,5 +2,9 @@
 <resources>
 
     <string name="player_file_plaied_failed">%s播放失败</string>
-
+    <string name="out_of_date">该组件已过期，请去github更新版本或购买续费\r\n版权所有：济南四叶草信息技术有限公司\r\n联系电话：18660167295</string>
+    <string name="goto_index">主页</string>
+    <string name="goto_github">更新</string>
+    <string name="contact_me">联系我们</string>
+    
 </resources>
