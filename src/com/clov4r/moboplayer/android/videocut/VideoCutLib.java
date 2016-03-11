@@ -1,8 +1,11 @@
 package com.clov4r.moboplayer.android.videocut;
 
+import com.clov4r.moboplayer.android.nil.library.Global;
+
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * The MIT License (MIT)
@@ -34,8 +37,15 @@ public class VideoCutLib {
 	String[] commands;
 	private CutListener mCutListener = null;
 	final String defaultCommand = "ffmpeg -ss %s -i %s -s %s -strict experimental -t %s %s";
+	// String[] commandArray = new String[] { "ffmpeg", "-ss", "%s", "-i", "%s",
+	// "-s", "%s", "-strict", "experimental", "-t", "%s", "%s" };
+
 	String[] commandArray = new String[] { "ffmpeg", "-ss", "%s", "-i", "%s",
-			"-s", "%s", "-strict", "experimental", "-t", "%s", "%s" };
+			"-s", "%s", "-strict", "experimental", "-t", "%s", "-c:v",
+			"libx264", "-c:a", "aac", "-maxrate", "1m" , "%s"};// "-minrate", "%s",
+
+	final int max_side_size = 640;
+	final int max_rate = 1024;//单位 kbps
 
 	/**
 	 * 务必保证输出路径存在
@@ -58,18 +68,61 @@ public class VideoCutLib {
 	 *            截取时长，格式：hh:mm:ss
 	 */
 	public VideoCutLib(String inputFilePath, String outputFilePath,
-			String resolution, String startTime, String duration) {
+			String resolution, String startTime, String duration) {//, int rate
 		// initCommand(String.format(defaultCommand, startTime, inputFilePath,
 		// resolution, duration, outputFilePath));
 
 		commandArray[2] = startTime;
 		commandArray[4] = inputFilePath;// "\"" + + "\"";
-		commandArray[6] = resolution;
+		commandArray[6] = getFormatResolution(resolution);
 		commandArray[10] = duration;
-		commandArray[11] = outputFilePath;// "\"" + + "\"";
+		commandArray[17] = outputFilePath;// "\"" + + "\"";
+//		commandArray[16] = getFormatRate(rate);
 
 		commands = commandArray;
 		commandNum = commandArray.length;
+		
+		String command = "";
+		for(int i =0;i<commandNum;i++){
+			command += commandArray[i]+" ";
+		}
+		Log.e("", command);
+	}
+
+	private String getFormatRate(int rate) {
+		int dst_rate = rate;
+		if (rate > max_rate) {
+			dst_rate = max_rate;
+		}
+		if (dst_rate >= max_rate)
+			return dst_rate / 1024 + "m";
+		else
+			return dst_rate  + "k";
+	}
+
+	private String getFormatResolution(String resolution) {
+		if (resolution.contains("*")) {
+			int width = Global.parseInt(resolution.substring(0,
+					resolution.indexOf("*")));
+			int height = Global.parseInt(resolution.substring(resolution
+					.indexOf("*") + 1));
+			if (width > max_side_size || height > max_side_size) {
+				if(width > height){
+					height = height * max_side_size / width;
+					width = max_side_size;
+				}else{
+					width = width * max_side_size / height;
+					height = max_side_size;
+				}
+				if(width%2!=0)
+					width++;
+				if(height%2!=0)
+					height++;
+				return width + "*" + height;
+			}else
+				return resolution;
+		} else
+			return resolution;
 	}
 
 	private void initCommand(String command) {
