@@ -42,8 +42,9 @@ public class VideoCutLib {
 
 	String[] commandArray = new String[] { "ffmpeg", "-ss", "%s", "-i", "%s",
 			"-s", "%s", "-strict", "experimental", "-t", "%s", "-c:v",
-			"libx264", "-c:a", "aac", "-maxrate", "1m" , "%s"};// "-minrate", "%s",
+			"libx264", "-c:a", "aac", "-maxrate", "1m" , "-ar", "%s", "%s"};// "-minrate", "%s",
 
+	final int max_sample_rate = 48000;
 	final int max_side_size = 640;
 	final int max_rate = 1024;//单位 kbps
 
@@ -66,9 +67,11 @@ public class VideoCutLib {
 	 *            截取开始时间，格式：hh:mm:ss
 	 * @param duration
 	 *            截取时长，格式：hh:mm:ss
+	 * @param samplerate
+	 *            采样率
 	 */
 	public VideoCutLib(String inputFilePath, String outputFilePath,
-			String resolution, String startTime, String duration) {//, int rate
+			String resolution, String startTime, String duration, int samplerate) {
 		// initCommand(String.format(defaultCommand, startTime, inputFilePath,
 		// resolution, duration, outputFilePath));
 
@@ -76,7 +79,12 @@ public class VideoCutLib {
 		commandArray[4] = inputFilePath;// "\"" + + "\"";
 		commandArray[6] = getFormatResolution(resolution);
 		commandArray[10] = duration;
-		commandArray[17] = outputFilePath;// "\"" + + "\"";
+		if(samplerate > 44100)
+			samplerate = 44100;
+		else if(samplerate <= 8000)
+			samplerate = 32000;
+		commandArray[18] = samplerate + "";
+		commandArray[19] = outputFilePath;// "\"" + + "\"";
 //		commandArray[16] = getFormatRate(rate);
 
 		commands = commandArray;
@@ -86,7 +94,7 @@ public class VideoCutLib {
 		for(int i =0;i<commandNum;i++){
 			command += commandArray[i]+" ";
 		}
-		Log.e("", command);
+//		Log.e("", command);
 	}
 
 	private String getFormatRate(int rate) {
@@ -176,7 +184,7 @@ public class VideoCutLib {
 
 		@Override
 		protected void onPostExecute(Integer params) {
-			if (mCutListener != null)
+			if (mCutListener != null && params == 0)
 				mCutListener.onFinished(params);
 		}
 	}
