@@ -35,6 +35,7 @@ public class VideoCutLib {
 	public static boolean hasInited = false;
 	int commandNum;
 	String[] commands;
+	boolean hasStoppped = false;
 	private CutListener mCutListener = null;
 	final String defaultCommand = "ffmpeg -ss %s -i %s -s %s -strict experimental -t %s %s";
 	// String[] commandArray = new String[] { "ffmpeg", "-ss", "%s", "-i", "%s",
@@ -169,7 +170,12 @@ public class VideoCutLib {
 
 	public native int cutVideo(int commandNum, Object[] commands);
 
-	public native void stopCut();
+	public void stopCut(){
+		hasStoppped = true;
+		stopCutVideo();
+	}
+	
+	public native void stopCutVideo();
 
 	private class CutLib extends AsyncTask<Void, Integer, Integer> {
 		@Override
@@ -184,7 +190,7 @@ public class VideoCutLib {
 
 		@Override
 		protected void onPostExecute(Integer params) {
-			if (mCutListener != null && params == 0)
+			if (mCutListener != null && params == 0 && !hasStoppped)
 				mCutListener.onFinished(params);
 		}
 	}
