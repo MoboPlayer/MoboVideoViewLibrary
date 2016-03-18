@@ -28,11 +28,15 @@ public class CommenCommandLib {
 	int commandNum;
 	String[] commands;
 	
+	public CommenCommandLib(){
+		
+	}
+	
 	public CommenCommandLib(String command){
 		initCommand(command);
 	}
 
-	private void initCommand(String command) {
+	void initCommand(String command) {
 		commands = command.split(" ");
 		if (commands != null && commands.length > 0)
 			commandNum = commands.length;
@@ -47,19 +51,19 @@ public class CommenCommandLib {
 	}
 	
 	public native int excute(int commandNum, Object[] commands);
-	public native int excuteFilterAudio(int commandNum, Object[] commands);
-	public native int excuteFilterVideo(int commandNum, Object[] commands);
+//	public native int excuteFilterAudio(int commandNum, Object[] commands);
+//	public native int excuteFilterVideo(int commandNum, Object[] commands);
 	
 	public int excute() {
 		return excute(commandNum, commands);
 	}
 
-	public int excuteFilterAudio() {
-		return excuteFilterAudio(commandNum, commands);
-	}
-
-	public int excuteFilterVideo() {
-		return excuteFilterVideo(commandNum, commands);
-	}
+//	public int excuteFilterAudio() {
+//		return excuteFilterAudio(commandNum, commands);
+//	}
+//
+//	public int excuteFilterVideo() {
+//		return excuteFilterVideo(commandNum, commands);
+//	}
 	
 }
