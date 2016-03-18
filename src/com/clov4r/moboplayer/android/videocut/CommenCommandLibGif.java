@@ -1,6 +1,8 @@
 package com.clov4r.moboplayer.android.videocut;
 
-import org.apache.http.protocol.ExecutionContext;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 
 /**
  * The MIT License (MIT)
@@ -31,6 +33,8 @@ public class CommenCommandLibGif extends CommenCommandLib {
 	final String gif_command_2 = "ffmpeg -ss %s -t %s -i %s -i %s -filter_complex \"fps=%s,scale=%s:-1:flags=lanczos[x];[x][1:v]paletteuse\" %s";
 	final String gif_command_3 = "ffmpeg -i %s -ss %s -r %s -s %s -t %s %s";
 
+	String command_1, command_2, command_3;
+
 	String startTime;
 	String duration;
 	String fps;
@@ -39,18 +43,32 @@ public class CommenCommandLibGif extends CommenCommandLib {
 	String videoPath;
 	String gifPath;
 	String palettePath;
+	boolean hasStoppped = false;
 
 	public CommenCommandLibGif() {
 
 	}
 
-	public int start(boolean highQuality) {
+	private void initCommand(boolean highQuality) {
+		if (highQuality) {
+			command_1 = String.format(gif_command_1, startTime, duration,
+					videoPath, fps, width, palettePath);
+			command_2 = String.format(gif_command_2, startTime, duration,
+					videoPath, palettePath, fps, width, gifPath);
+		} else {
+			command_3 = String.format(gif_command_3, videoPath, startTime, fps,
+					width + "x" + height, duration, gifPath);
+		}
+	}
+
+	public int startCreate(boolean highQuality) {
+		initCommand(highQuality);
 		int ret = -1;
 		if (highQuality) {
-			String command_1 = String.format(gif_command_1, startTime,
-					duration, videoPath, fps, width, palettePath);
-			String command_2 = String.format(gif_command_2, startTime,
-					duration, videoPath, palettePath, fps, width, gifPath);
+			command_1 = String.format(gif_command_1, startTime, duration,
+					videoPath, fps, width, palettePath);
+			command_2 = String.format(gif_command_2, startTime, duration,
+					videoPath, palettePath, fps, width, gifPath);
 			initCommand(command_1);
 			ret = excute();
 			if (ret >= 0) {
@@ -58,12 +76,24 @@ public class CommenCommandLibGif extends CommenCommandLib {
 				ret = excute();
 			}
 		} else {
-			String command_3 = String.format(gif_command_3, videoPath,
-					startTime, fps, width +"x" +height, duration, gifPath);
+			command_3 = String.format(gif_command_3, videoPath, startTime, fps,
+					width + "x" + height, duration, gifPath);
 			initCommand(command_3);
 			ret = excute();
 		}
 		return ret;
+	}
+
+	public void startCreateAsynchronous(boolean highQuality,
+			CutListener listener) {
+		initCommand(highQuality);
+		setCutListener(listener);
+		new CreateLib().execute(highQuality ? 1 : 0);
+	}
+
+	public void stopCreate() {
+		hasStoppped = true;
+		stop();
 	}
 
 	public CommenCommandLibGif setStartTime(String startTime) {
@@ -103,4 +133,59 @@ public class CommenCommandLibGif extends CommenCommandLib {
 		return this;
 	}
 
+	public void setCutListener(CutListener listener) {
+		mCutListener = listener;
+	}
+
+	private void setProgress(int second) {
+		Message msg = new Message();
+		msg.what = msg_progress_changed;
+		msg.arg1 = second;
+		mHandler.sendMessage(msg);
+	}
+
+	protected CutListener mCutListener = null;
+	private static final int msg_progress_changed = 111;
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case msg_progress_changed:
+				if (mCutListener != null)
+					mCutListener.onProgressChanged(msg.arg1);
+				break;
+			}
+		}
+	};
+
+	private class CreateLib extends AsyncTask<Integer, Integer, Integer> {
+		@Override
+		protected Integer doInBackground(Integer... params) {
+			int ret = -1;
+			if (params[0] == 1) {
+				initCommand(command_1);
+				ret = excute();
+				if (ret >= 0) {
+					initCommand(command_2);
+					ret = excute();
+				}
+			} else if (params[0] == 0) {
+				initCommand(command_3);
+				return excute();
+			}
+			return ret;
+
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... progresses) {
+
+		}
+
+		@Override
+		protected void onPostExecute(Integer params) {
+			if (mCutListener != null && params == 0 && !hasStoppped)
+				mCutListener.onFinished(params);
+		}
+	}
 }
