@@ -31,7 +31,7 @@ import android.os.Message;
 public class CommenCommandLibGif extends CommenCommandLib {
 	final String gif_command_1 = "ffmpeg -y -ss %s -t %s -i %s -vf fps=%s,scale=%s:-1:flags=lanczos,palettegen %s";
 	final String gif_command_2 = "ffmpeg -ss %s -t %s -i %s -i %s -filter_complex \"fps=%s,scale=%s:-1:flags=lanczos[x];[x][1:v]paletteuse\" %s";
-	final String gif_command_3 = "ffmpeg -i %s -ss %s -r %s -s %s -t %s %s";
+	final String gif_command_3 = "ffmpeg -ss %s -i %s -r %s -s %s -t %s %s";
 
 	String command_1, command_2, command_3;
 
@@ -56,7 +56,7 @@ public class CommenCommandLibGif extends CommenCommandLib {
 			command_2 = String.format(gif_command_2, startTime, duration,
 					videoPath, palettePath, fps, width, gifPath);
 		} else {
-			command_3 = String.format(gif_command_3, videoPath, startTime, fps,
+			command_3 = String.format(gif_command_3, startTime, videoPath, fps,
 					width + "x" + height, duration, gifPath);
 		}
 	}
