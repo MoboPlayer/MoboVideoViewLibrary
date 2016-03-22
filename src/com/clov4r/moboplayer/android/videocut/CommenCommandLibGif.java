@@ -186,6 +186,7 @@ public class CommenCommandLibGif extends CommenCommandLib {
 		protected void onPostExecute(Integer params) {
 			if (mCutListener != null && params == 0 && !hasStoppped)
 				mCutListener.onFinished(params);
+			hasStoppped = true;
 		}
 	}
 }
