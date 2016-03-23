@@ -95,6 +95,10 @@ public class CommenCommandLibGif extends CommenCommandLib {
 		hasStoppped = true;
 		stop();
 	}
+	
+	public boolean hasStopped(){
+		return hasStoppped;
+	}
 
 	public CommenCommandLibGif setStartTime(String startTime) {
 		this.startTime = startTime;

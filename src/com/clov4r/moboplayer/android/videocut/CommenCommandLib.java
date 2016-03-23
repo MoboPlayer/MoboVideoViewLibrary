@@ -56,6 +56,7 @@ public class CommenCommandLib {
 
 	public native int excute(int commandNum, Object[] commands);
 	public native void stop();
+	public native int isCutFinished();
 //	public native int excuteFilterAudio(int commandNum, Object[] commands);
 //	public native int excuteFilterVideo(int commandNum, Object[] commands);
 	

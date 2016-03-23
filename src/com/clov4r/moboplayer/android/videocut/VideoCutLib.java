@@ -176,6 +176,7 @@ public class VideoCutLib {
 	}
 	
 	public native void stopCutVideo();
+	public native int isCutFinished();
 
 	private class CutLib extends AsyncTask<Void, Integer, Integer> {
 		@Override
