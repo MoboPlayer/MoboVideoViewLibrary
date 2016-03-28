@@ -35,6 +35,11 @@ public class CommenCommandLibGif extends CommenCommandLib {
 
 	String command_1, command_2, command_3;
 
+	String commandArray1[] = {"ffmpeg" , "-y" , "-ss" , "%s" , "-t" , "%s" , "-i" , "%s" , "-vf" , "fps=%s,scale=%s:-1:flags=lanczos,palettegen" , "%s"};
+	String commandArray2[] = {"ffmpeg" , "-ss" , "%s" , "-t" , "%s" , "-i" , "%s" , "-i" , "%s" , 
+			"-filter_complex \"fps=%s,scale=%s:-1:flags=lanczos[x];[x][1:v]paletteuse\"" , "%s"};
+	String commandArray3[] = {"ffmpeg" , "-ss" , "%s" , "-i" , "%s" , "-r" , "%s" , "-s" , "%s" , "-t" , "%s" , "%s"};
+
 	String startTime;
 	String duration;
 	String fps;
@@ -50,14 +55,34 @@ public class CommenCommandLibGif extends CommenCommandLib {
 	}
 
 	private void initCommand(boolean highQuality) {
+//		if (highQuality) {
+//			command_1 = String.format(gif_command_1, startTime, duration,
+//					videoPath, fps, width, palettePath);
+//			command_2 = String.format(gif_command_2, startTime, duration,
+//					videoPath, palettePath, fps, width, gifPath);
+//		} else {
+//			command_3 = String.format(gif_command_3, startTime, videoPath, fps,
+//					width + "x" + height, duration, gifPath);
+//		}
 		if (highQuality) {
-			command_1 = String.format(gif_command_1, startTime, duration,
-					videoPath, fps, width, palettePath);
-			command_2 = String.format(gif_command_2, startTime, duration,
-					videoPath, palettePath, fps, width, gifPath);
+			commandArray1[3] = startTime;
+			commandArray1[5] = duration;
+			commandArray1[7] = videoPath;
+			commandArray1[9] = String.format(commandArray1[9], fps, width);
+			commandArray1[10] = palettePath;
+			commandArray2[2] = startTime;
+			commandArray2[4] = duration;
+			commandArray2[6] = videoPath;
+			commandArray2[8] = palettePath;
+			commandArray2[9] = String.format(commandArray1[9], fps, width);;
+			commandArray2[10] = gifPath;
 		} else {
-			command_3 = String.format(gif_command_3, startTime, videoPath, fps,
-					width + "x" + height, duration, gifPath);
+			commandArray3[2] = startTime;
+			commandArray3[4] = videoPath;
+			commandArray3[6] = fps;
+			commandArray3[8] = width + "x" + height;
+			commandArray3[10] = duration;
+			commandArray3[11] = gifPath;
 		}
 	}
 
@@ -65,20 +90,26 @@ public class CommenCommandLibGif extends CommenCommandLib {
 		initCommand(highQuality);
 		int ret = -1;
 		if (highQuality) {
-			command_1 = String.format(gif_command_1, startTime, duration,
-					videoPath, fps, width, palettePath);
-			command_2 = String.format(gif_command_2, startTime, duration,
-					videoPath, palettePath, fps, width, gifPath);
-			initCommand(command_1);
+//			command_1 = String.format(gif_command_1, startTime, duration,
+//					videoPath, fps, width, palettePath);
+//			command_2 = String.format(gif_command_2, startTime, duration,
+//					videoPath, palettePath, fps, width, gifPath);
+//			initCommand(command_1);
+			commands = commandArray1;
+			commandNum = commands.length;
 			ret = excute();
 			if (ret >= 0) {
-				initCommand(command_2);
+//				initCommand(command_2);
+				commands = commandArray2;
+				commandNum = commands.length;
 				ret = excute();
 			}
 		} else {
-			command_3 = String.format(gif_command_3, videoPath, startTime, fps,
-					width + "x" + height, duration, gifPath);
-			initCommand(command_3);
+//			command_3 = String.format(gif_command_3, videoPath, startTime, fps,
+//					width + "x" + height, duration, gifPath);
+//			initCommand(command_3);
+			commands = commandArray3;
+			commandNum = commands.length;
 			ret = excute();
 		}
 		return ret;
@@ -167,14 +198,20 @@ public class CommenCommandLibGif extends CommenCommandLib {
 		protected Integer doInBackground(Integer... params) {
 			int ret = -1;
 			if (params[0] == 1) {
-				initCommand(command_1);
+//				initCommand(command_1);
+				commands = commandArray1;
+				commandNum = commands.length;
 				ret = excute();
 				if (ret >= 0) {
-					initCommand(command_2);
+//					initCommand(command_2);
+					commands = commandArray2;
+					commandNum = commands.length;
 					ret = excute();
 				}
 			} else if (params[0] == 0) {
-				initCommand(command_3);
+//				initCommand(command_3);
+				commands = commandArray3;
+				commandNum = commands.length;
 				return excute();
 			}
 			return ret;

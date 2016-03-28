@@ -78,7 +78,7 @@ public class VideoCutLib {
 
 		commandArray[2] = startTime;
 		commandArray[4] = inputFilePath;// "\"" + + "\"";
-		commandArray[6] = getFormatResolution(resolution);
+		commandArray[6] = resolution;//getFormatResolution(resolution);
 		commandArray[10] = duration;
 		if(samplerate > 44100)
 			samplerate = 44100;
