@@ -32,5 +32,5 @@ public interface CutListener {
 	 *            返回0为成功
 	 */
 	public void onFinished(int resultCode);
-	public void onProgressChanged(int progress);
+	public void onProgressChanged(int progress, int duration);
 }

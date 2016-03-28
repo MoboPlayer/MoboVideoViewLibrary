@@ -172,10 +172,11 @@ public class CommenCommandLibGif extends CommenCommandLib {
 		mCutListener = listener;
 	}
 
-	private void setProgress(int second) {
+	private void setProgress(int second, int duration) {
 		Message msg = new Message();
 		msg.what = msg_progress_changed;
 		msg.arg1 = second;
+		msg.arg2 = duration;
 		mHandler.sendMessage(msg);
 	}
 
@@ -187,7 +188,7 @@ public class CommenCommandLibGif extends CommenCommandLib {
 			switch (msg.what) {
 			case msg_progress_changed:
 				if (mCutListener != null)
-					mCutListener.onProgressChanged(msg.arg1);
+					mCutListener.onProgressChanged(msg.arg1, msg.arg2);
 				break;
 			}
 		}
