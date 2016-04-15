@@ -43,11 +43,12 @@ public class VideoCutLib {
 
 	String[] commandArray = new String[] { "ffmpeg", "-ss", "%s", "-i", "%s",
 			"-s", "%s", "-strict", "experimental", "-t", "%s", "-c:v",
-			"libx264", "-c:a", "aac", "-maxrate", "1m" , "-ar", "%s", "%s"};// "-minrate", "%s",
+			"libx264", "-c:a", "aac", "-maxrate", "1m", "-ar", "%s", "%s" };// "-minrate",
+																			// "%s",
 
 	final int max_sample_rate = 48000;
 	final int max_side_size = 640;
-	final int max_rate = 1024;//单位 kbps
+	final int max_rate = 1024;// 单位 kbps
 
 	/**
 	 * 务必保证输出路径存在
@@ -78,24 +79,24 @@ public class VideoCutLib {
 
 		commandArray[2] = startTime;
 		commandArray[4] = inputFilePath;// "\"" + + "\"";
-		commandArray[6] = resolution;//getFormatResolution(resolution);
+		commandArray[6] = checkResolution(resolution);// getFormatResolution(resolution);
 		commandArray[10] = duration;
-		if(samplerate > 44100)
+		if (samplerate > 44100)
 			samplerate = 44100;
-		else if(samplerate <= 8000)
+		else if (samplerate <= 8000)
 			samplerate = 32000;
 		commandArray[18] = samplerate + "";
 		commandArray[19] = outputFilePath;// "\"" + + "\"";
-//		commandArray[16] = getFormatRate(rate);
+		// commandArray[16] = getFormatRate(rate);
 
 		commands = commandArray;
 		commandNum = commandArray.length;
-		
+
 		String command = "";
-		for(int i =0;i<commandNum;i++){
-			command += commandArray[i]+" ";
+		for (int i = 0; i < commandNum; i++) {
+			command += commandArray[i] + " ";
 		}
-//		Log.e("", command);
+		// Log.e("", command);
 	}
 
 	private String getFormatRate(int rate) {
@@ -106,7 +107,24 @@ public class VideoCutLib {
 		if (dst_rate >= max_rate)
 			return dst_rate / 1024 + "m";
 		else
-			return dst_rate  + "k";
+			return dst_rate + "k";
+	}
+	
+	private String checkResolution(String resolution){
+		if (resolution.contains("*")) {
+			int width = Global.parseInt(resolution.substring(0,
+					resolution.indexOf("*")));
+			int height = Global.parseInt(resolution.substring(resolution
+					.indexOf("*") + 1));
+			if(width % 2 != 0 || height % 2 != 0){
+				if(width % 2 != 0)
+					width++;
+				if(height % 2 != 0)
+					height++;
+			}
+			return width + "*" + height;
+		}
+		return resolution;
 	}
 
 	private String getFormatResolution(String resolution) {
@@ -116,19 +134,19 @@ public class VideoCutLib {
 			int height = Global.parseInt(resolution.substring(resolution
 					.indexOf("*") + 1));
 			if (width > max_side_size || height > max_side_size) {
-				if(width > height){
+				if (width > height) {
 					height = height * max_side_size / width;
 					width = max_side_size;
-				}else{
+				} else {
 					width = width * max_side_size / height;
 					height = max_side_size;
 				}
-				if(width%2!=0)
+				if (width % 2 != 0)
 					width++;
-				if(height%2!=0)
+				if (height % 2 != 0)
 					height++;
 				return width + "*" + height;
-			}else
+			} else
 				return resolution;
 		} else
 			return resolution;
@@ -162,21 +180,24 @@ public class VideoCutLib {
 	}
 
 	private void setProgress(int second, int duration) {
-		Message msg = new Message();
-		msg.what = msg_progress_changed;
-		msg.arg1 = second;
-		msg.arg2 = duration;
-		mHandler.sendMessage(msg);
+		if (!hasStoppped) {
+			Message msg = new Message();
+			msg.what = msg_progress_changed;
+			msg.arg1 = second;
+			msg.arg2 = duration;
+			mHandler.sendMessage(msg);
+		}
 	}
 
 	public native int cutVideo(int commandNum, Object[] commands);
 
-	public void stopCut(){
+	public void stopCut() {
 		hasStoppped = true;
 		stopCutVideo();
 	}
-	
+
 	public native void stopCutVideo();
+
 	public native int isCutFinished();
 
 	private class CutLib extends AsyncTask<Void, Integer, Integer> {
@@ -192,7 +213,7 @@ public class VideoCutLib {
 
 		@Override
 		protected void onPostExecute(Integer params) {
-			if (mCutListener != null && params == 0 && !hasStoppped)
+			if (mCutListener != null && !hasStoppped)// && params == 0
 				mCutListener.onFinished(params);
 			hasStoppped = true;
 		}
