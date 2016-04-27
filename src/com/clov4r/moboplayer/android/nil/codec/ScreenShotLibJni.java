@@ -58,6 +58,8 @@ public class ScreenShotLibJni extends BaseJNILib {
 	protected native Bitmap getThumbnail(String videoName, String imagePath,
 			int position, int width, int height);
 
+	protected native Bitmap stopGetThumbnail();
+
 	protected native Bitmap getKeyFrameThumbnail(String videoName,
 			int position, int width, int height);
 
@@ -88,7 +90,11 @@ public class ScreenShotLibJni extends BaseJNILib {
 		pathMap.put(videoPath, thumbnailSavePath);
 		return getIDRThumbnail(videoPath, thumbnailSavePath, width, height);
 	}
-
+	
+	public void stopCreatingThumbnail(){
+		stopGetThumbnail();
+	}
+	
 	/**
 	 * Get a frame(maybe not key frame)
 	 * @param videoPath
