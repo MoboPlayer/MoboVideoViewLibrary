@@ -180,9 +180,7 @@ public class StreamingDownloadLib {
 
 	public native int nativeStartDownload(String streamingUrl,
 			String fileSavePath, String packetFile, long dts,
-			long finishedSize, int isLive, int timeout);// ,
-	// int
-	// timeToDownload
+			long finishedSize, int isLive, int timeout, int timeToDownload);
 
 	public native int nativeStartBuffer(String streamingUrl, String packetFile,
 			int startPos, int timeout);
@@ -241,7 +239,7 @@ public class StreamingDownloadLib {
 					mStreamingDownloadData.last_video_dts,
 					mStreamingDownloadData.finishSize,
 					mStreamingDownloadData.isLive ? 1 : 0,
-					mStreamingDownloadData.timeout);// mStreamingDownloadData.timeStartToDownload
+					mStreamingDownloadData.timeout, mStreamingDownloadData.timeStartToDownload);
 			return null;
 		}
 

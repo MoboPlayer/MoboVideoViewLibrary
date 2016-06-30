@@ -83,7 +83,7 @@ public class VideoCutLib {
 		commandArray[10] = duration;
 		if (samplerate > 44100)
 			samplerate = 44100;
-		else if (samplerate <= 8000)
+		else if (samplerate <= 32000)
 			samplerate = 32000;
 		commandArray[18] = samplerate + "";
 		commandArray[19] = outputFilePath;// "\"" + + "\"";

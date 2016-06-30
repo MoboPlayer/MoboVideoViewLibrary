@@ -227,7 +227,11 @@ public class CPUInfo {
 		if (ffmpeg_name == null)
 			if (isX86) {
 				ffmpeg_name = "libffmpeg_x86.so";
-			} else if (armVersion >= 7) {
+			}
+//			else if (armVersion >= 8){
+//				ffmpeg_name = "libffmpeg_armv8_neon.so";// lib .so
+//			}
+			else if (armVersion >= 7) {
 				if (hasNeon())
 					ffmpeg_name = "libffmpeg_armv7_neon.so";// lib .so
 				else

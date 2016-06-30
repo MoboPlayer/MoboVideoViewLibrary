@@ -1,5 +1,7 @@
 package com.clov4r.moboplayer.android.videocut;
 
+import java.util.ArrayList;
+
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -37,8 +39,10 @@ public class CommenCommandLibGif extends CommenCommandLib {
 
 	String commandArray1[] = {"ffmpeg" , "-y" , "-ss" , "%s" , "-t" , "%s" , "-i" , "%s" , "-vf" , "fps=%s,scale=%s:-1:flags=lanczos,palettegen" , "%s"};
 	String commandArray2[] = {"ffmpeg" , "-ss" , "%s" , "-t" , "%s" , "-i" , "%s" , "-i" , "%s" , 
-			"-filter_complex \"fps=%s,scale=%s:-1:flags=lanczos[x];[x][1:v]paletteuse\"" , "%s"};
-	String commandArray3[] = {"ffmpeg" , "-ss" , "%s" , "-i" , "%s" , "-r" , "%s" , "-s" , "%s" , "-t" , "%s" , "%s"};
+			"-filter_complex \"fps=%s,scale=%s:-1:flags=lanczos[x];[x][1:v]paletteuse\"" , "-vf", "", "%s"};
+	String commandArray3[] = null;//{"ffmpeg" , "-ss" , "%s" , "-i" , "%s" , "-r" , "%s" , "-s" , "%s" , "-t" , "%s", "-vf", "", "%s"};
+	
+	ArrayList<String> commandList = new ArrayList<String>();
 
 	String startTime;
 	String duration;
@@ -48,6 +52,7 @@ public class CommenCommandLibGif extends CommenCommandLib {
 	String videoPath;
 	String gifPath;
 	String palettePath;
+	int angle = -1;
 	boolean hasStoppped = false;
 
 	public CommenCommandLibGif() {
@@ -74,15 +79,41 @@ public class CommenCommandLibGif extends CommenCommandLib {
 			commandArray2[4] = duration;
 			commandArray2[6] = videoPath;
 			commandArray2[8] = palettePath;
-			commandArray2[9] = String.format(commandArray1[9], fps, width);;
-			commandArray2[10] = gifPath;
+			commandArray2[9] = String.format(commandArray1[9], fps, width);
+			commandArray2[11] = angle + "transpose=";
+			commandArray2[12] = gifPath;
 		} else {
-			commandArray3[2] = startTime;
-			commandArray3[4] = videoPath;
-			commandArray3[6] = fps;
-			commandArray3[8] = width + "x" + height;
-			commandArray3[10] = duration;
-			commandArray3[11] = gifPath;
+			commandList.add("ffmpeg");
+			commandList.add("-ss");
+			commandList.add(startTime);
+			commandList.add("-i");
+			commandList.add(videoPath);
+			commandList.add("-r");
+			commandList.add(fps);
+			commandList.add("-s");
+			commandList.add(width + "x" + height);
+			commandList.add("-t");
+			commandList.add(duration);
+			if(angle > 0 && angle % 90 == 0){
+				commandList.add("-vf");
+				if(angle == 90)
+					commandList.add("transpose=1");
+				else if(angle == 270)
+					commandList.add("transpose=2");
+				else
+					if(angle == 180){
+						commandList.add("transpose=1,transpose=1");
+					}
+			}
+			commandList.add(gifPath);
+//			commandArray3[2] = startTime;
+//			commandArray3[4] = videoPath;
+//			commandArray3[6] = fps;
+//			commandArray3[8] = width + "x" + height;
+//			commandArray3[10] = duration;
+//			commandArray3[12] = angle + "transpose=";
+//			commandArray3[13] = gifPath;
+			commandArray3 = (String[])commandList.toArray(new String[commandList.size()]);
 		}
 	}
 
@@ -165,6 +196,11 @@ public class CommenCommandLibGif extends CommenCommandLib {
 
 	public CommenCommandLibGif setGifPath(String gifPath) {
 		this.gifPath = gifPath;
+		return this;
+	}
+
+	public CommenCommandLibGif setAngle(int angle) {
+		this.angle = angle;
 		return this;
 	}
 
