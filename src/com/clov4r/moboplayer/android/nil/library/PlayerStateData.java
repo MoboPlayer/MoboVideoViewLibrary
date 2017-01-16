@@ -13,6 +13,11 @@ public class PlayerStateData implements Serializable {
 	public int decodeAudioSoftType = 0;
 	public boolean playBackground = false;
 	public boolean playedFromOut;
+	public float playSpeed = 1f;
+	public boolean isPlayAfterScreenOff = false;
+	public int playerLoopMode = 0;
+	public int recyle_partly_start_time = 0, recyle_partly_end_time = 0;//AB点循环起始时间
+	public boolean isSaveSize = false;
 
 	public PlayerStateData(ArrayList<LocalVideoData> dataList, String path,
 			int index, int playerState, String params) {//
@@ -34,6 +39,24 @@ public class PlayerStateData implements Serializable {
 		this.playerState = playerState;
 		this.playBackground = playBackground;
 		this.playedFromOut = playedFromOut;
+	}
+
+	public void setSpeed(float speed){
+		playSpeed = speed;
+	}
+	
+	public void setPlayAfterScreenOff(boolean isPlayAfterScreenOff){
+		this.isPlayAfterScreenOff = isPlayAfterScreenOff;
+	}
+
+	public void setPlayerLoopMode(int playerLoopMode, int recyle_partly_start_time, int recyle_partly_end_time){
+		this.playerLoopMode = playerLoopMode;
+		this.recyle_partly_start_time = recyle_partly_start_time;
+		this.recyle_partly_end_time = recyle_partly_end_time;
+	}
+	
+	public void setIsSaveSize(boolean isSaveSize){
+		this.isSaveSize = isSaveSize;
 	}
 
 }

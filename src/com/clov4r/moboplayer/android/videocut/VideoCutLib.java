@@ -213,6 +213,8 @@ public class VideoCutLib {
 
 		@Override
 		protected void onPostExecute(Integer params) {
+			if (params == 0 && mCutListener != null)
+				mCutListener.onProgressChanged(100, 100);
 			if (mCutListener != null && !hasStoppped)// && params == 0
 				mCutListener.onFinished(params);
 			hasStoppped = true;
