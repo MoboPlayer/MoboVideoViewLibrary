@@ -18,6 +18,7 @@ public class PlayerStateData implements Serializable {
 	public int playerLoopMode = 0;
 	public int recyle_partly_start_time = 0, recyle_partly_end_time = 0;//AB点循环起始时间
 	public boolean isSaveSize = false;
+	public boolean isHardwareDecodeOnly = false;
 
 	public PlayerStateData(ArrayList<LocalVideoData> dataList, String path,
 			int index, int playerState, String params) {//
@@ -57,6 +58,10 @@ public class PlayerStateData implements Serializable {
 	
 	public void setIsSaveSize(boolean isSaveSize){
 		this.isSaveSize = isSaveSize;
+	}
+
+	public void setIsHardwareDecodeOnly(boolean isHardwareDecodeOnly){
+		this.isHardwareDecodeOnly = isHardwareDecodeOnly;
 	}
 
 }
