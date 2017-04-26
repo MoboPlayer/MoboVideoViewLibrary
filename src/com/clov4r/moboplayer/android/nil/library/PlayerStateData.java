@@ -19,6 +19,7 @@ public class PlayerStateData implements Serializable {
 	public int recyle_partly_start_time = 0, recyle_partly_end_time = 0;//AB点循环起始时间
 	public boolean isSaveSize = false;
 	public boolean isHardwareDecodeOnly = false;
+	public boolean isClosedAfterCurrentOne;
 
 	public PlayerStateData(ArrayList<LocalVideoData> dataList, String path,
 			int index, int playerState, String params) {//
@@ -62,6 +63,14 @@ public class PlayerStateData implements Serializable {
 
 	public void setIsHardwareDecodeOnly(boolean isHardwareDecodeOnly){
 		this.isHardwareDecodeOnly = isHardwareDecodeOnly;
+	}
+
+	public boolean isClosedAfterCurrentOne() {
+		return isClosedAfterCurrentOne;
+	}
+
+	public void setClosedAfterCurrentOne(boolean closedAfterCurrentOne) {
+		isClosedAfterCurrentOne = closedAfterCurrentOne;
 	}
 
 }
